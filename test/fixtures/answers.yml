@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  round: one
+  team: one
+  answer: MyText
+
+two:
+  round: two
+  team: two
+  answer: MyText

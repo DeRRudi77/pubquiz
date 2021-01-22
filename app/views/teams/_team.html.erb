@@ -1,0 +1,18 @@
+<%= turbo_frame_tag dom_id(team) do %>
+  <p id="notice"><%= notice %></p>
+
+  <p>
+    <strong>Game:</strong>
+    <%= team.game.name %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= team.name %>
+  </p>
+
+  <div>
+    <h2><%= t('round', number: team.game.current_round.round_number) %></h2>
+    <%= render 'answers/answer', answer: team.game.current_round.answers.for_team(team)  %>
+  </div>
+<% end %>
