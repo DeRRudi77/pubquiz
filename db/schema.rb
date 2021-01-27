@@ -37,15 +37,18 @@ ActiveRecord::Schema.define(version: 2021_01_22_002221) do
 
   create_table "games", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
-    t.string "status"
+    t.integer "number_of_rounds"
+    t.integer "current_round_number", default: 0
+    t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "rounds", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "game_id", null: false
+    t.integer "number"
     t.integer "number_of_questions"
-    t.string "status"
+    t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_rounds_on_game_id"

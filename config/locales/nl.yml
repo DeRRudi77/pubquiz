@@ -31,3 +31,11 @@
 
 nl:
   round: "Ronde %{number}"
+  team_name: Team naam
+  game_name: Spel
+  number_of_questions_title: "Hoeveel vragen voor ronder %{number}"
+  number_of_questions: Aantal vragen
+  helpers:
+    submit:
+      answer:
+        create: "Antwoorden bijwerken"

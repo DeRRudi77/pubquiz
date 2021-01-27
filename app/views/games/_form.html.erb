@@ -1,0 +1,42 @@
+<%= form_with(model: game) do |form| %>
+  <% if game.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+        <% game.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label"> <%= form.label :name %></label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <%= form.text_field :name, style: "width: 50%", class: 'input' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label"> <%= form.label :number_of_rounds %></label>
+    </div>
+    <div class="field-body">
+      <div class="field has-addons">
+        <div class="control">
+          <%= form.number_field :number_of_rounds, class: 'input' %>
+        </div>
+        <div class="control">
+          <%= form.submit class: 'button is-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

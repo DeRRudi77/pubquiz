@@ -1,0 +1,18 @@
+<div class="column">
+  <div class="card">
+    <%= turbo_frame_tag 'game_frame' do %>
+       <header class="card-header">
+         <p class="card-header-title">
+           <%= t(:new_game) %>
+         </p>
+       </header>
+
+      <div class="card-content">
+         <div class="content">
+            <%= render 'form', game: @game %>
+            <%#= link_to 'Back', games_path %>
+         </div>
+      </div>
+    <% end %>
+  </div>
+</div>

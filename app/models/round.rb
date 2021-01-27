@@ -1,6 +1,7 @@
 class Round < ApplicationRecord
   belongs_to :game
-  enum status: %i[started ended], _default: "started"
+
+  enum status: %i[pending_start started finished], _default: :pending_start
 
   has_many :answers, dependent: :destroy do
     def for_team(team)
@@ -8,9 +9,9 @@ class Round < ApplicationRecord
     end
   end
 
-  scope :ended , -> { where(ended: true)}
+  validates :number_of_questions, presence: true
 
-  def round_number
-    "#{game.rounds.ended.count + 1}"
+  def next_round
+    game.rounds.find_by(number: number + 1)
   end
 end

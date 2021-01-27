@@ -1,5 +1,5 @@
 <%= turbo_frame_tag dom_id(answer) do %>
-  <%= form_with(model: answer) do |form| %>
+  <%= form_with(model: answer, html: { class: 'pure-form pure-form-aligned' }) do |form| %>
     <% if answer.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(answer.errors.count, "error") %> prohibited this team from being saved:</h2>
@@ -12,58 +12,28 @@
       </div>
     <% end %>
 
-    <div class="field">
-      <%= form.label :answer_1 %>
-      <%= form.text_field :answer_1 %>
-    </div>
+    <%= render 'answers/answer_field', form: form, field: :answer_1 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_2 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_3 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_4 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_5 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_6 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_7 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_8 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_9 %>
+    <%= render 'answers/answer_field', form: form, field: :answer_10 %>
 
-    <div class="field">
-      <%= form.label :answer_2 %>
-      <%= form.text_field :answer_2 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_3 %>
-      <%= form.text_field :answer_3 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_4 %>
-      <%= form.text_field :answer_4 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_5 %>
-      <%= form.text_field :answer_5 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_6 %>
-      <%= form.text_field :answer_6 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_7 %>
-      <%= form.text_field :answer_7 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_8 %>
-      <%= form.text_field :answer_8 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_9 %>
-      <%= form.text_field :answer_9 %>
-    </div>
-
-    <div class="field">
-      <%= form.label :answer_10 %>
-      <%= form.text_field :answer_10 %>
-    </div>
-
-    <div class="actions">
-      <%= form.submit %>
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <!-- Left empty for spacing -->
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control">
+            <%= form.submit class: 'button is-primary' %>
+          </div>
+        </div>
+      </div>
     </div>
   <% end %>
 <% end %>

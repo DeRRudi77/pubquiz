@@ -31,3 +31,11 @@
 
 en:
   round: "Round %{number}"
+  team_name: Team name
+  game_name: Game
+  number_of_questions_title: "How many questions for round %{number}"
+  number_of_questions: Number of questions
+  helpers:
+    submit:
+      answer:
+        update: "Update your answers"

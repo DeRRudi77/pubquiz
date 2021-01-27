@@ -1,0 +1,17 @@
+<%= turbo_frame_tag 'game_frame' do %>
+  <header class="card-header">
+    <p class="card-header-title">
+      <%= @game.name %>
+    </p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      <%= render 'games/game', game: @game %>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <%= link_to 'Edit', edit_game_path(@game), class: "card-footer-item" %>
+    <div class="card-footer-item"></div>
+    <div class="card-footer-item"></div>
+  </footer>
+<% end %>

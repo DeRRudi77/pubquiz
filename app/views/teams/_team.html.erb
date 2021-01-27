@@ -1,18 +1,25 @@
 <%= turbo_frame_tag dom_id(team) do %>
   <p id="notice"><%= notice %></p>
 
-  <p>
-    <strong>Game:</strong>
-    <%= team.game.name %>
-  </p>
+  <div class="card">
+    <div class="card-content">
+      <div class="content">
+        <p>
+          <strong><%= t(:game_name) %>:</strong>
+          <%= team.game.name %>
+        </p>
+        <p>
+          <strong><%= t(:team_name) %>:</strong>
+          <%= team.name %>
+        </p>
+      </div>
 
-  <p>
-    <strong>Name:</strong>
-    <%= team.name %>
-  </p>
-
-  <div>
-    <h2><%= t('round', number: team.game.current_round.round_number) %></h2>
-    <%= render 'answers/answer', answer: team.game.current_round.answers.for_team(team)  %>
+      <div class="content">
+        <div>
+          <h2><%= t('round', number: team.game.current_round.round_number) %></h2>
+          <%= render 'answers/answer', answer: team.game.current_round.answers.for_team(team)  %>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

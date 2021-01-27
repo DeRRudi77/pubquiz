@@ -7,10 +7,19 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script defer src="https://use.fontawesome.com/releases/v5.14.0/js/all.js"></script>
   </head>
 
   <body>
-    <%= yield %>
+    <div class="container">
+      <div class="notification">
+        <div class="columns">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
