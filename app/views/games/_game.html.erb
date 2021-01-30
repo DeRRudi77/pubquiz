@@ -1,5 +1,3 @@
 <p><span class="has-text-weight-bold">Number of rounds:</span> <%= game.number_of_rounds %></p>
 
-<%= turbo_frame_tag dom_id(@game) do %>
-  <%= render 'rounds/form', round: @game.next_round %>
-<% end %>
+<%= render 'rounds/form', round: @game.next_round %>

@@ -1,28 +1,26 @@
-<nav class="panel">
-  <p class="panel-heading"><%= t(:number_of_questions_title, number: round.number) %></p>
+<%= turbo_frame_tag dom_id(round) do %>
+  <%= form_with(model: round, class: 'box is-shadowless') do |form| %>
+    <% if round.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(round.errors.count, "error") %> prohibited this round from being saved:</h2>
 
-  <div class="panel-block">
-    <%= form_with(model: round) do |form| %>
-      <% if round.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(round.errors.count, "error") %> prohibited this round from being saved:</h2>
-
-          <ul>
-            <% round.errors.each do |error| %>
-              <li><%= error.full_message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-      <div class="field has-addons">
-        <div class="control">
-          <%= form.number_field :number_of_questions, class: 'input', placeholder: t(:number_of_questions) %>
-        </div>
-        <div class="control">
-          <%= form.submit class: 'button is-primary' %>
-        </div>
+        <ul>
+          <% round.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
       </div>
     <% end %>
-  </div>
-</nav>
+
+    <div class="title is-4"><%= t(:number_of_questions_title, number: round.number) %></div>
+
+    <div class="field has-addons">
+      <div class="control">
+        <%= form.number_field :number_of_questions, class: 'input', placeholder: t(:number_of_questions) %>
+      </div>
+      <div class="control">
+        <%= form.submit class: 'button is-primary' %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

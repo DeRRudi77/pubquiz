@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  database:
+    image: postgres:latest
+    container_name: pubquiz_database
+    environment:
+      POSTGRES_PASSWORD: pubquiz
+      POSTGRES_USER: pubquiz
+    ports:
+      - 5432:5432
+
+  redis:
+    container_name: pubquiz_redis
+    image: redis:latest
+    ports:
+      - 6379:6379

@@ -24,7 +24,7 @@ class Game < ApplicationRecord
 
   def create_rounds
     number_of_rounds.times do |number|
-      rounds.create(number: number + 1)
+      rounds.create!(number: number + 1)
     end
   end
 end

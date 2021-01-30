@@ -11,7 +11,7 @@ class RoundsController < ApplicationController
   def update
     respond_to do |format|
       if @round.update(round_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(turbo_stream.dom_id(@game), partial: 'rounds/form', locals: { round: @round.next_round }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.next_round }) }
         format.html { redirect_to @round, notice: 'Round was successfully updated.' }
       else
         format.html { render :edit }

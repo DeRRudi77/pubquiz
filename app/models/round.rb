@@ -9,8 +9,6 @@ class Round < ApplicationRecord
     end
   end
 
-  validates :number_of_questions, presence: true
-
   def next_round
     game.rounds.find_by(number: number + 1)
   end
