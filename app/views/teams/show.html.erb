@@ -1,5 +1,22 @@
 <%= turbo_stream_from 'teams' %>
 
 <div class="column">
-  <%= render 'team', team: @team %>
+  <div class="card">
+    <header class="card-header">
+      <p class="card-header-title">
+        <%= @team.game.name %>
+      </p>
+    </header>
+    <div class="card-content">
+      <div class="content">
+        <% if(@team.game.pending_start?) %>
+          <%= render 'form', team: @team %>
+        <% elsif @team.game.started? %>
+          <%= render 'team', team: @team %>
+        <% else %>
+          <%= render 'team', team: @team %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>

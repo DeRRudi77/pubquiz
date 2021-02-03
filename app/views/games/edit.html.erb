@@ -1,17 +1,11 @@
 <div class="column">
   <div class="card">
-    <%= turbo_frame_tag 'game_frame' do %>
-      <header class="card-header">
-        <p class="card-header-title">
-          <%= @game.name %>
-        </p>
-      </header>
-
+    <%= turbo_frame_tag 'game_wizard' do %>
       <div class="card-content">
         <div class="content">
-          <%= render 'form', game: @game %>
+          <h1 class="title"><%= @game.name %></h1>
 
-          <%= link_to 'Back', games_path %>
+          <%= render 'form', game: @game %>
         </div>
       </div>
     <% end %>

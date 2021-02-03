@@ -10,14 +10,22 @@ class Game < ApplicationRecord
 
   after_create :create_rounds
 
-  def start!
-    rounds.create
+  def next_round!
+    started! unless started?
+    current_round.finished! if current_round.present?
+    next_round.started!
+    update!(current_round_number: (current_round_number + 1))
+    teams.reload.each { |team| team.reload.broadcast_replace_to 'teams' }
   end
 
-  def next_round!
-    current_round.finished!
-    rounds.create
+  def reset!
+    update(current_round_number: 0, status: :pending_start)
+    rounds.update_all(status: :pending_start)
     teams.reload.each { |team| team.reload.broadcast_replace_to 'teams' }
+  end
+
+  def progress
+    100 / number_of_rounds
   end
 
   private

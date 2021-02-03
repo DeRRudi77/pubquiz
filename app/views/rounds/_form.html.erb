@@ -12,15 +12,18 @@
       </div>
     <% end %>
 
-    <div class="title is-4"><%= t(:number_of_questions_title, number: round.number) %></div>
+      <h4>Progress:</h4>
+      <progress class="progress is-info" value="<%= round.progress %>" max="100">"<%= round.progress %>%</progress>
 
-    <div class="field has-addons">
-      <div class="control">
-        <%= form.number_field :number_of_questions, class: 'input', placeholder: t(:number_of_questions) %>
+      <div class="title is-5"><%= t(:number_of_questions_title, number: round.number) %> (<%= t(:max_notice) %>)</div>
+
+      <div class="field has-addons">
+        <div class="control">
+          <%= form.number_field :number_of_questions, class: 'input', placeholder: t(:number_of_questions) %>
+        </div>
+        <div class="control">
+          <%= form.submit class: 'button is-primary' %>
+        </div>
       </div>
-      <div class="control">
-        <%= form.submit class: 'button is-primary' %>
-      </div>
-    </div>
   <% end %>
 <% end %>

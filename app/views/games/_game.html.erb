@@ -1,3 +1,31 @@
-<p><span class="has-text-weight-bold">Number of rounds:</span> <%= game.number_of_rounds %></p>
+<div class="card-content">
+  <div class="content">
+    <h1 class="title"><%= game.name %></h1>
 
-<%= render 'rounds/form', round: @game.next_round %>
+    <table class="table is-striped is-hoverable">
+      <thead>
+      <tr>
+        <th>Round number</th>
+        <th>Number of questions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% game.rounds.each do |round| %>
+        <tr>
+          <td><%= round.number %></td>
+          <td><%= round.number_of_questions %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="card-footer">
+    <%= link_to 'Edit', edit_game_path(game), class: "card-footer-item" %>
+    <div class="card-footer-item"></div>
+    <div class="card-footer-item"></div>
+  </footer>
+</div>
+
+

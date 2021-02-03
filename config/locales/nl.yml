@@ -35,6 +35,7 @@ nl:
   game_name: Spel
   number_of_questions_title: "Hoeveel vragen voor ronder %{number}"
   number_of_questions: Aantal vragen
+  max_notice: Maximaal 10
   helpers:
     submit:
       answer:

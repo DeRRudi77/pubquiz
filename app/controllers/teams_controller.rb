@@ -11,7 +11,7 @@ class TeamsController < ApplicationController
   def update
     respond_to do |format|
       if @team.update(team_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: 'teams/form', locals: { team: @team }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: 'teams/form', locals: { team: @team, notice: 'Team name successfully set' }) }
         format.html { redirect_to @team, notice: 'Team was successfully updated.' }
       else
         format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: 'teams/form', locals: { team: @team }) }

@@ -4,7 +4,7 @@ class CreateGames < ActiveRecord::Migration[6.1]
       t.string :name, nil: false
       t.integer :number_of_rounds
       t.integer :current_round_number, nil: true, default: 0
-      t.integer :status
+      t.integer :status, default: 0
 
       t.timestamps
     end

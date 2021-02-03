@@ -28,9 +28,10 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('game_wizard', partial: 'games/game_wizard', locals: { game: @game }) }
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace('game_frame', partial: 'games/form', locals: { game: @game }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('game_wizard', partial: 'games/form', locals: { game: @game }) }
         format.html { render :new }
       end
     end
@@ -41,6 +42,7 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
+        format.turbo_stream { render turbo_stream: turbo_stream.replace('game_wizard', partial: 'games/game_wizard', locals: { game: @game }) }
         format.html { redirect_to @game, notice: 'Game was successfully updated.' }
       else
         format.turbo_stream { render turbo_stream: turbo_stream.replace(@game, partial: 'games/form', locals: { game: @game }) }

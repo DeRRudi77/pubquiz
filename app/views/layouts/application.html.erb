@@ -15,11 +15,13 @@
 
   <body>
     <div class="container">
-      <div class="notification">
-        <div class="columns">
-          <%= yield %>
-        </div>
+      <%= render 'components/navigation' %>
+
+      <div class="section">
+        <%= yield %>
       </div>
+
+      <%= render 'components/footer' %>
     </div>
   </body>
 </html>

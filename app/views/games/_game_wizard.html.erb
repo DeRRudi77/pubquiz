@@ -1,0 +1,15 @@
+<%= turbo_frame_tag 'game_wizard' do %>
+  <div class="card-content">
+    <div class="content">
+      <h1 class="title"><%= @game.name %></h1>
+
+      <%= render 'rounds/form', round: @game.next_round %>
+    </div>
+  </div>
+
+  <footer class="card-footer">
+    <%= link_to 'Edit', edit_game_path(@game), class: "card-footer-item" %>
+    <div class="card-footer-item"></div>
+    <div class="card-footer-item"></div>
+  </footer>
+<% end %>
