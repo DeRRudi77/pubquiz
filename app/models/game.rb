@@ -1,27 +1,30 @@
 class Game < ApplicationRecord
-  has_many :rounds
+  has_many :rounds, -> { order(:number) }
   has_many :teams
   has_one :current_round, ->(game) { where(number: game.current_round_number) }, class_name: 'Round'
   has_one :next_round, ->(game) { where(number: game.current_round_number + 1) }, class_name: 'Round'
-  enum status: %i[pending_start started finished], _default: "pending_start"
+  enum status: %i[pending_start started pending_results finished], _default: "pending_start"
 
   validates :number_of_rounds, presence: true
   validates :name, presence: true
 
-  after_create :create_rounds
+  after_create :create_rounds_and_teams
+  after_update :update_rounds_and_teams
+
+  broadcasts
 
   def next_round!
     started! unless started?
     current_round.finished! if current_round.present?
     next_round.started!
     update!(current_round_number: (current_round_number + 1))
-    teams.reload.each { |team| team.reload.broadcast_replace_to 'teams' }
+    teams.reload.each { |team| team.reload.broadcast_replace_to team }
   end
 
   def reset!
     update(current_round_number: 0, status: :pending_start)
     rounds.update_all(status: :pending_start)
-    teams.reload.each { |team| team.reload.broadcast_replace_to 'teams' }
+    teams.reload.each { |team| team.reload.broadcast_replace_to team }
   end
 
   def progress
@@ -30,9 +33,30 @@ class Game < ApplicationRecord
 
   private
 
-  def create_rounds
+  def create_rounds_and_teams
     number_of_rounds.times do |number|
       rounds.create!(number: number + 1)
+    end
+    number_of_teams.times do
+      teams.create!
+    end
+  end
+
+  def update_rounds_and_teams
+    if number_of_rounds < rounds.count
+      rounds.last(rounds.count - number_of_rounds).each(&:destroy!)
+    elsif number_of_rounds > rounds.count
+      (number_of_rounds - rounds.count).times do
+        rounds.create!(number: (rounds.last.number + 1))
+      end
+    end
+
+    if number_of_teams < teams.count
+      teams.last(teams.count - number_of_teams).each(&:destroy!)
+    elsif number_of_teams > teams.count
+      (number_of_teams - teams.count).times do
+        teams.create!
+      end
     end
   end
 end

@@ -1,5 +1,5 @@
-<%= turbo_frame_tag dom_id(round) do %>
-  <%= form_with(model: round, class: 'box is-shadowless') do |form| %>
+<%= turbo_frame_tag dom_id(round)do %>
+  <%= form_with(model: round, class: 'box is-shadowless', data: { 'turbo-frame': round_form_turbo_frame(round) }) do |form| %>
     <% if round.errors.any? %>
       <div id="error_explanation">
         <h2><%= pluralize(round.errors.count, "error") %> prohibited this round from being saved:</h2>

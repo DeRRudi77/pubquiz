@@ -14,9 +14,8 @@ class RoundsController < ApplicationController
         if @round.next_round.present?
           format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.next_round }) }
         else
-          format.turbo_stream { render turbo_stream: turbo_stream.replace('game_wizard', partial: 'games/game', locals: { game: @round.game }) }
+          format.html { redirect_to @round.game, notice: 'You are now ready to start your game.', status: 303 }
         end
-        format.html { redirect_to @round, notice: 'Round was successfully updated.' }
       else
         format.html { render :edit }
       end

@@ -1,9 +1,11 @@
 <%= turbo_frame_tag dom_id(team) do %>
-
-  <h3><%= team.name %></h3>
-
-  <div>
-    <h4><%= t('round', number: team.game.current_round.number) %></h4>
-    <%= render 'answers/answer', answer: team.game.current_round.answers.for_team(team)  %>
-  </div>
+  <% if(team.game.pending_start?) %>
+    <%= render 'teams/form', team: team %>
+  <% elsif team.game.started? %>
+    <%= render 'teams/game_on', team: team %>
+  <% elsif team.game.pending_results? %>
+    <%= render 'teams/pending_results', team: team %>
+  <% else %>
+    <%= render 'teams/finished', team: team %>
+  <% end %>
 <% end %>

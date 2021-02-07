@@ -36,6 +36,10 @@ nl:
   number_of_questions_title: "Hoeveel vragen voor ronder %{number}"
   number_of_questions: Aantal vragen
   max_notice: Maximaal 10
+  team_notification: Stuur onderstaande links naar de team captains voor het spel te starten. \nHier kunnen ze de team namen invullen.
+  waiting_for_first_round: Als de eerste ronde is beeindigd, zullen de antwoorden hier verschijnen.
+  start: Start het spel
+  next_round: Volgende rondes
   helpers:
     submit:
       answer:

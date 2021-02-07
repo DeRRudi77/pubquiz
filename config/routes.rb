@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :rounds, only: [ :edit, :update ]
-  resources :games
+  resources :games do
+    member do
+      patch 'next_round'
+    end
+  end
   resources :admins, only: :index
   resources :teams, only: [:show, :update, :edit]
   resources :answers, only: [:create, :update]

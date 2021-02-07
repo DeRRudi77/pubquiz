@@ -1,31 +1,9 @@
-<div class="card-content">
-  <div class="content">
-    <h1 class="title"><%= game.name %></h1>
+<%= turbo_frame_tag dom_id(game) do %>
+  <% if game.pending_start? %>
+    <%= render 'games/pre_start', game: game %>
+  <% elsif game.started? %>
+    <%= render 'games/started', game: game %>
+  <% end %>
 
-    <table class="table is-striped is-hoverable">
-      <thead>
-      <tr>
-        <th>Round number</th>
-        <th>Number of questions</th>
-      </tr>
-      </thead>
-
-      <tbody>
-      <% game.rounds.each do |round| %>
-        <tr>
-          <td><%= round.number %></td>
-          <td><%= round.number_of_questions %></td>
-        </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-
-  <footer class="card-footer">
-    <%= link_to 'Edit', edit_game_path(game), class: "card-footer-item" %>
-    <div class="card-footer-item"></div>
-    <div class="card-footer-item"></div>
-  </footer>
-</div>
-
+<% end %>
 

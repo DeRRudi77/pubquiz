@@ -1,0 +1,6 @@
+<h3><%= team.name %></h3>
+
+<div>
+  <h4><%= t('round', number: team.game.current_round.number) %></h4>
+  <%= render 'answers/answer', answer: team.game.current_round.answers.for_team(team)  %>
+</div>

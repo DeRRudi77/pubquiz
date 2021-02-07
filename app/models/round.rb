@@ -3,7 +3,7 @@ class Round < ApplicationRecord
 
   enum status: %i[pending_start started finished], _default: :pending_start
 
-  validates :number_of_questions, numericality: { less_than_or_equal_to: 10 }
+  validates :number_of_questions, numericality: { less_than_or_equal_to: 10 }, allow_nil: true
 
   has_many :answers, dependent: :destroy do
     def for_team(team)
@@ -16,6 +16,6 @@ class Round < ApplicationRecord
   end
 
   def progress
-    100 / game.number_of_rounds * (number - 1)
+    100 / (game.number_of_rounds + 1) * number
   end
 end

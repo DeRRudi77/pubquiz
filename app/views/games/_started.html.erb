@@ -1,0 +1,52 @@
+<div class="card-content">
+  <div class="content">
+    <% if notice.present? %>
+      <div class="notification is-success">
+        <a href="" class="delete"></a>
+        <%= notice %>
+      </div>
+    <% end %>
+    <h1 class="title"><%= game.name %></h1>
+
+    <% if game.rounds.finished.count.zero? %>
+      <div class="notification is-success">
+        <%= t(:waiting_for_first_round) %>
+      </div>
+    <% else %>
+      <% game.rounds.finished.each do |round| %>
+        <h2>Round <%=round.number %></h2>
+        <% game.teams.each do |team| %>
+          <h3>Team: <%= team.name %></h3>
+          <% answers = round.answers.for_team(team) %>
+          <table class="table is-striped is-hoverable">
+            <thead>
+            <tr>
+              <th>Question</th>
+              <th>Answer</th>
+              <th>Score</th>
+            </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Question 1</td>
+                <td><%= answers.answer_1 %></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <footer class="card-footer">
+    <div class="card-footer-item"></div>
+    <div class="card-footer-item"></div>
+    <div class="card-footer-item">
+      <%= form_with(model: game, url: { action: :next_round }) do |form| %>
+        <%= form.submit t(:next_round), class: 'button is-primary is-inverted' %>
+      <% end %>
+    </div>
+  </footer>
+</div>

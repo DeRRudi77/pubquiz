@@ -4,5 +4,14 @@ class Team < ApplicationRecord
   belongs_to :game
   has_many :answers
 
-  # after_update_commit { broadcast_replace_to 'teams' }
+  # broadcasts
+  after_update_commit -> do
+    # broadcast_replace_to(game)
+    game.reload.broadcast_replace_to game
+  end
+  # broadcasts_to(:game)
+
+  def display_name(number)
+    name || "Team #{number}"
+  end
 end

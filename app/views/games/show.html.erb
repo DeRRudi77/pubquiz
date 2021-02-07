@@ -1,3 +1,8 @@
-<%= turbo_frame_tag 'game_wizard' do %>
-  <%= render 'games/game', game: @game %>
-<% end %>
+<%= turbo_stream_from @game %>
+<div class="column">
+  <div class="card">
+    <%= turbo_frame_tag 'game_wizard' do %>
+        <%= render 'games/game', game: @game %>
+    <% end %>
+  </div>
+</div>

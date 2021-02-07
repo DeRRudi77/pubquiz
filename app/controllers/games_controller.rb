@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :next_round]
 
   # GET /games
   # GET /games.json
@@ -61,6 +61,20 @@ class GamesController < ApplicationController
     end
   end
 
+  def next_round
+    notice = @game.started? ? 'Game started' : 'Next round started'
+    @game.next_round!
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'game_wizard',
+          partial: 'games/started',
+          locals: { game: @game, notice: notice }
+        )
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_game
@@ -69,6 +83,6 @@ class GamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:name, :number_of_rounds)
+      params.require(:game).permit(:name, :number_of_rounds, :number_of_teams, :current_round_number)
     end
 end

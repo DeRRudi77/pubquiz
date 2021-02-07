@@ -1,0 +1,61 @@
+<div class="card-content">
+  <div class="content">
+    <% if notice.present? %>
+      <div class="notification is-success">
+        <a href="" class="delete"></a>
+        <%= notice %>
+      </div>
+    <% end %>
+    <h1 class="title"><%= game.name %></h1>
+
+    <table class="table is-striped is-hoverable">
+      <thead>
+      <tr>
+        <th>Round number</th>
+        <th>Number of questions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% game.rounds.each do |round| %>
+        <tr>
+          <td><%= round.number %></td>
+          <td><%= round.number_of_questions %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div class="notification is-warning"><%= t(:team_notification) %></div>
+
+    <table class="table is-striped is-hoverable">
+      <thead>
+      <tr>
+        <th>Team</th>
+        <th>Name</th>
+        <th>Link</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% game.teams.each_with_index do |team, index | %>
+        <tr>
+          <td><%= team.id %></td>
+          <td><%= team.display_name(index) %></td>
+          <td><%= link_to(nil, team) %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="card-footer">
+    <%= link_to 'Edit', edit_game_path(game), class: "card-footer-item" %>
+    <div class="card-footer-item"></div>
+    <div class="card-footer-item">
+      <%= form_with(model: game, url: { action: :next_round }) do |form| %>
+        <%= form.submit 'Start the game!', class: 'button is-primary is-inverted' %>
+      <% end %>
+    </div>
+  </footer>
+</div>

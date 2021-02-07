@@ -1,4 +1,4 @@
-<%= turbo_stream_from 'teams' %>
+<%= turbo_stream_from @team %>
 
 <div class="column">
   <div class="card">
@@ -9,13 +9,7 @@
     </header>
     <div class="card-content">
       <div class="content">
-        <% if(@team.game.pending_start?) %>
-          <%= render 'form', team: @team %>
-        <% elsif @team.game.started? %>
-          <%= render 'team', team: @team %>
-        <% else %>
-          <%= render 'team', team: @team %>
-        <% end %>
+        <%= render 'team', team: @team %>
       </div>
     </div>
   </div>
