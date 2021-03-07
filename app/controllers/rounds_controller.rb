@@ -7,7 +7,7 @@ class RoundsController < ApplicationController
   end
 
   # PATCH/PUT /rounds/1
-  # PATCH/PUT /rounds/1.json
+  # PATCH/PUT /rounds/1.json∞
   def update
     respond_to do |format|
       if @round.update(round_params)
@@ -41,6 +41,6 @@ class RoundsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def round_params
-    params.require(:round).permit(:number_of_questions)
+    params.require(:round).permit(:number_of_questions, :question_attributes)
   end
 end

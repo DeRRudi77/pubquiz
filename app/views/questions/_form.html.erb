@@ -1,0 +1,17 @@
+<%= form_with(model: question, class: 'box is-shadowless') do |form| %>
+  <% if question.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+
+      <ul>
+        <% question.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= render 'components/form/text_field', form: form, field: :question %>
+  <%= render 'components/form/button', form: form %>
+
+<% end %>

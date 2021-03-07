@@ -12,18 +12,25 @@
       </div>
     <% end %>
 
-      <h4>Progress:</h4>
-      <progress class="progress is-info" value="<%= round.progress %>" max="100">"<%= round.progress %>%</progress>
+    <h4>Progress:</h4>
+    <progress class="progress is-info" value="<%= round.progress %>" max="100">"<%= round.progress %>%</progress>
 
-      <div class="title is-5"><%= t(:number_of_questions_title, number: round.number) %> (<%= t(:max_notice) %>)</div>
+    <div class="title is-5"><%= t(:number_of_questions_title, number: round.number) %> (<%= t(:max_notice) %>)</div>
 
-      <div class="field has-addons">
-        <div class="control">
-          <%= form.number_field :number_of_questions, class: 'input', placeholder: t(:number_of_questions) %>
-        </div>
-        <div class="control">
-          <%= form.submit class: 'button is-primary' %>
-        </div>
+    <%= form.fields_for(:questions, round.questions) do |question_form| %>
+      <div class="field is-horizontal">
+        <%= render 'components/form/text_field', form: question_form, field: :question %>
+        <%= render 'components/form/text_field', form: question_form, field: :answer %>
       </div>
+    <% end %>
+
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <!-- Left empty for spacing -->
+      </div>
+      <div class="field-body">
+      </div>
+      <%= render 'components/form/button', form: form %>
+    </div>
   <% end %>
 <% end %>

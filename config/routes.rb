@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :questions
   resources :rounds, only: [ :edit, :update ]
   resources :games do
     member do
@@ -7,6 +8,5 @@ Rails.application.routes.draw do
   end
   resources :admins, only: :index
   resources :teams, only: [:show, :update, :edit]
-  resources :answers, only: [:create, :update]
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :team_answers, only: [:create, :update]
 end

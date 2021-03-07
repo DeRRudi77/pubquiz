@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  include RelationshipUpdatable
+
   has_many :rounds, -> { order(:number) }
   has_many :teams
   has_one :current_round, ->(game) { where(number: game.current_round_number) }, class_name: 'Round'
@@ -8,8 +10,7 @@ class Game < ApplicationRecord
   validates :number_of_rounds, presence: true
   validates :name, presence: true
 
-  after_create :create_rounds_and_teams
-  after_update :update_rounds_and_teams
+  after_save :update_rounds_and_teams
 
   broadcasts
 
@@ -33,30 +34,22 @@ class Game < ApplicationRecord
 
   private
 
-  def create_rounds_and_teams
-    number_of_rounds.times do |number|
-      rounds.create!(number: number + 1)
-    end
-    number_of_teams.times do
-      teams.create!
-    end
-  end
-
   def update_rounds_and_teams
-    if number_of_rounds < rounds.count
-      rounds.last(rounds.count - number_of_rounds).each(&:destroy!)
-    elsif number_of_rounds > rounds.count
-      (number_of_rounds - rounds.count).times do
-        rounds.create!(number: (rounds.last.number + 1))
-      end
-    end
-
-    if number_of_teams < teams.count
-      teams.last(teams.count - number_of_teams).each(&:destroy!)
-    elsif number_of_teams > teams.count
-      (number_of_teams - teams.count).times do
-        teams.create!
-      end
-    end
+    update_relationship_to_amount(rounds, number_of_rounds)
+    update_relationship_to_amount(teams, number_of_teams)
   end
 end
+
+# == Schema Information
+#
+# Table name: games
+#
+#  id                   :uuid             not null, primary key
+#  name                 :string
+#  number_of_rounds     :integer          default(3)
+#  number_of_teams      :integer          default(2)
+#  current_round_number :integer          default(0)
+#  status               :integer          default("pending_start")
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#
