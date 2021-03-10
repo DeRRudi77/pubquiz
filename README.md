@@ -1,24 +1,8 @@
-# README
+# Pubquiz
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Ruby On Rails application to host and manage a pubquiz. Create a game, rounds questions and answers. Define a number of teams and start a game. 
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+# Requirements
+* Ruby: 3.x
+* Database: Postgres
+* Redis
