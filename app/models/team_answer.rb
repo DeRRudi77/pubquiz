@@ -1,6 +1,9 @@
 class TeamAnswer < ApplicationRecord
-  belongs_to :round
+  belongs_to :question
   belongs_to :team
+
+  has_one :round, through: :question
+  has_one :game, through: :round
 
   enum status: %i[pending correct incorrect], _default: "pending"
 end
@@ -10,9 +13,9 @@ end
 # Table name: team_answers
 #
 #  id          :uuid             not null, primary key
+#  answer      :text
 #  points      :integer
 #  status      :integer          default("pending")
-#  team_answer :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  question_id :uuid             not null

@@ -17,7 +17,6 @@
         <h2>Round <%=round.number %></h2>
         <% game.teams.each do |team| %>
           <h3>Team: <%= team.name %></h3>
-          <% answers = round.answers.for_team(team) %>
           <table class="table is-striped is-hoverable">
             <thead>
             <tr>
@@ -28,11 +27,13 @@
             </thead>
 
             <tbody>
+              <% team.team_answers.where(question: round.questions).each do |answer| %>
               <tr>
-                <td>Question 1</td>
-                <td><%= answers.answer_1 %></td>
+                <td>Question <%= answer.question.number %></td>
+                <td><%= answer.answer %></td>
                 <td></td>
               </tr>
+              <% end %>
             </tbody>
           </table>
         <% end %>
@@ -44,7 +45,7 @@
     <div class="card-footer-item"></div>
     <div class="card-footer-item"></div>
     <div class="card-footer-item">
-      <%= form_with(model: game, url: { action: :next_round }) do |form| %>
+      <%= form_with(model: game, url: next_round_game_path(game)) do |form| %>
         <%= form.submit t(:next_round), class: 'button is-primary is-inverted' %>
       <% end %>
     </div>

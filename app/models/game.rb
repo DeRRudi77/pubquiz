@@ -14,6 +14,21 @@ class Game < ApplicationRecord
 
   broadcasts
 
+  def start!
+    started!
+    next_round.started!
+    update!(current_round_number: (1))
+    # make sure all answer objects are ready
+    rounds.each do |round|
+      round.questions.each do |question|
+        teams.each do |team|
+          question.team_answers.for_team(team)
+        end
+      end
+    end
+    teams.reload.each { |team| team.reload.broadcast_replace_to team }
+  end
+
   def next_round!
     started! unless started?
     current_round.finished! if current_round.present?

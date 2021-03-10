@@ -11,16 +11,19 @@ class TeamsController < ApplicationController
   def update
     respond_to do |format|
       if @team.update(team_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: 'teams/form', locals: { team: @team, notice: 'Team name successfully set' }) }
-        format.html { redirect_to @team, notice: 'Team was successfully updated.' }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: 'teams/team', locals: { team: @team, notice: update_notice }) }
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: 'teams/form', locals: { team: @team }) }
-        format.html { render :show }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: 'teams/team', locals: { team: @team }) }
       end
     end
   end
 
   private
+
+  def update_notice
+    return 'Answers saved'  if params[:commit] == 'Save answers'
+    'Team name saved'
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_team
@@ -29,6 +32,6 @@ class TeamsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def team_params
-    params.require(:team).permit(:name)
+    params.require(:team).permit(:name, team_answers_attributes: [:answer, :id])
   end
 end

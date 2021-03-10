@@ -2,8 +2,11 @@ class Question < ApplicationRecord
   belongs_to :round
   has_one :team, through: :round
 
-  has_many :team_answers, dependent: :destroy
-
+  has_many :team_answers, dependent: :destroy do
+    def for_team(team)
+      find_or_create_by(team: team)
+    end
+  end
 
 end
 

@@ -6,17 +6,9 @@ class Round < ApplicationRecord
 
   enum status: %i[pending_start started finished], _default: :pending_start
 
-  validates :number_of_questions, numericality: { less_than_or_equal_to: 10 }, allow_nil: true
-
   after_create :create_questions
 
   accepts_nested_attributes_for :questions
-
-  has_many :team_answers, dependent: :destroy do
-    def for_team(team)
-      find_or_create_by(team: team)
-    end
-  end
 
   def next_round
     game.rounds.find_by(number: number + 1)

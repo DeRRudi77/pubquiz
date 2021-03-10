@@ -53,7 +53,7 @@
     <%= link_to 'Edit', edit_game_path(game), class: "card-footer-item" %>
     <div class="card-footer-item"></div>
     <div class="card-footer-item">
-      <%= form_with(model: game, url: { action: :next_round }) do |form| %>
+      <%= form_with(model: game, url: next_round_game_path(game)) do |form| %>
         <%= form.submit 'Start the game!', class: 'button is-primary is-inverted' %>
       <% end %>
     </div>

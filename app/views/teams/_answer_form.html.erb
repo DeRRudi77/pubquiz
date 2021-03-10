@@ -1,0 +1,41 @@
+<%= form_with(model: team, id: dom_id(team)) do |form| %>
+  <% if(notice.present?) %>
+    <div class="notification is-primary">
+      <a href="" class="delete"></a>
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <% if team.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
+
+      <ul>
+        <% team.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.fields_for(:team_answers, team.current_round_answers) do |answer_form| %>
+    <div>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          Question <%= answer_form.object.question.number %>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control is-expanded">
+              <%= answer_form.text_field :answer, class: 'input' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="field is-horizontal">
+    <%= render 'components/form/button', form: form, position: 'right', text: 'Save answers' %>
+  </div>
+<% end %>
