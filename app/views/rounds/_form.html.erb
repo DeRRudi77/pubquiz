@@ -18,9 +18,12 @@
     <div class="title is-5"><%= t(:number_of_questions_title, number: round.number) %> (<%= t(:max_notice) %>)</div>
 
     <%= form.fields_for(:questions, round.questions) do |question_form| %>
-      <div class="field is-horizontal">
-        <%= render 'components/form/text_field', form: question_form, field: :question %>
-        <%= render 'components/form/text_field', form: question_form, field: :answer %>
+      <div>
+        <h4 class="title is-4">Question <%= question_form.object.number %></h4>
+        <div class="field is-horizontal">
+          <%= render 'components/form/text_field', form: question_form, field: :question %>
+          <%= render 'components/form/text_field', form: question_form, field: :answer %>
+        </div>
       </div>
     <% end %>
 
@@ -29,8 +32,18 @@
         <!-- Left empty for spacing -->
       </div>
       <div class="field-body">
+        <div class="field">
+          <div class="control is-pulled-right">
+            <% unless round.questions.count == 0 %>
+              <%= form.submit 'Remove question', class: 'button is-danger' %>
+            <% end %>
+            <% unless round.questions.count == 10 %>
+              <%= form.submit 'Add question', class: 'button is-primary' %>
+            <% end %>
+          </div>
+        </div>
       </div>
-      <%= render 'components/form/button', form: form %>
+      <%= render 'components/form/button', form: form, position: 'right' %>
     </div>
   <% end %>
 <% end %>

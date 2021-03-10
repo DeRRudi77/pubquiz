@@ -11,13 +11,21 @@ class RoundsController < ApplicationController
   def update
     respond_to do |format|
       if @round.update(round_params)
-        if @round.next_round.present?
+        if params[:commit] == "Add question"
+          @round.questions.create! number: @round.questions.last.number + 1
+
+          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.reload }) }
+        elsif params[:commit] == "Remove question"
+          @round.questions.last.destroy
+
+          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.reload }) }
+        elsif @round.next_round.present?
           format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.next_round }) }
         else
           format.html { redirect_to @round.game, notice: 'You are now ready to start your game.', status: 303 }
         end
       else
-        format.html { render :edit }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round }) }
       end
     end
   end
@@ -41,6 +49,6 @@ class RoundsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def round_params
-    params.require(:round).permit(:number_of_questions, :question_attributes)
+    params.require(:round).permit(:commit, :number_of_questions, questions_attributes: [:id, :question, :answer])
   end
 end

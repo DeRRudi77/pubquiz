@@ -1,10 +1,12 @@
+<% field_width = local_assigns.fetch :width, '100%' %>
+
 <div class="field-label is-normal">
   <%= form.label field, class: 'label' %>
 </div>
 <div class="field-body">
   <div class="field">
-    <div class="control">
-      <%= form.text_field field, style: "width: 50%", class: 'input' %>
+    <div class="control is-expanded">
+      <%= form.text_field field, style: "width: #{field_width}", class: 'input' %>
     </div>
   </div>
 </div>

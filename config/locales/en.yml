@@ -46,3 +46,5 @@ en:
         update: "Update your answers"
       team:
         update: "Set team name"
+      round:
+        update: "Next Round"

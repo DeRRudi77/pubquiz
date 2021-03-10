@@ -1,17 +1,31 @@
-<%= form_with(model: question, class: 'box is-shadowless') do |form| %>
-  <% if question.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
+<%= turbo_frame_tag dom_id(question) do %>
+  <%= form_with(model: question, class: 'box is-shadowless') do |form| %>
+    <% if question.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(question.errors.count, "error") %> prohibited this question from being saved:</h2>
 
-      <ul>
-        <% question.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% question.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+
+    <h4 class="title is-4">Question <%= question.number %></h4>
+
+    <div class="field is-horizontal">
+      <%= render 'components/form/text_field', form: form, field: :question %>
+      <div class="field-label">
+        <!-- Left empty for spacing -->
+      </div>
+      <div class="field-body">
+      </div>
+    </div>
+    <div class="field is-horizontal">
+      <%= render 'components/form/text_field', form: form, field: :answer %>
+      <%= render 'components/form/button', form: form %>
     </div>
   <% end %>
-
-  <%= render 'components/form/text_field', form: form, field: :question %>
-  <%= render 'components/form/button', form: form %>
-
 <% end %>

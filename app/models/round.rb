@@ -2,13 +2,13 @@ class Round < ApplicationRecord
   include RelationshipUpdatable
 
   belongs_to :game
-  has_many :questions, dependent: :destroy
+  has_many :questions, -> { order(:number) }, dependent: :destroy
 
   enum status: %i[pending_start started finished], _default: :pending_start
 
   validates :number_of_questions, numericality: { less_than_or_equal_to: 10 }, allow_nil: true
 
-  after_save :update_questions
+  after_create :create_questions
 
   accepts_nested_attributes_for :questions
 
@@ -29,7 +29,7 @@ class Round < ApplicationRecord
   private
 
   def update_questions
-    update_relationship_to_amount(questions, number_of_questions)
+    update_relationship_to_amount(questions, 10)
   end
 end
 
@@ -37,13 +37,12 @@ end
 #
 # Table name: rounds
 #
-#  id                  :uuid             not null, primary key
-#  number              :integer          not null
-#  number_of_questions :integer          default(10)
-#  status              :integer          default("pending_start")
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  game_id             :uuid             not null
+#  id         :uuid             not null, primary key
+#  number     :integer          not null
+#  status     :integer          default("pending_start")
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  game_id    :uuid             not null
 #
 # Indexes
 #

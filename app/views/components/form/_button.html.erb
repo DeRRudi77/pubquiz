@@ -1,9 +1,10 @@
+<% position = local_assigns.fetch :position, 'left' %>
 <div class="field-label">
   <!-- Left empty for spacing -->
 </div>
 <div class="field-body">
   <div class="field">
-    <div class="control">
+    <div class="control is-pulled-<%= position %>">
       <%= form.submit class: 'button is-primary' %>
     </div>
   </div>

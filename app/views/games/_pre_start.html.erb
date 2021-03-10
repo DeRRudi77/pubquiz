@@ -20,7 +20,7 @@
       <% game.rounds.each do |round| %>
         <tr>
           <td><%= round.number %></td>
-          <td><%= round.number_of_questions %></td>
+          <td><%= round.questions.count %></td>
         </tr>
       <% end %>
       </tbody>
