@@ -1,14 +1,12 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :next_round]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :start, :next_round, :finish]
 
   # GET /games
-  # GET /games.json
   def index
     @games = Game.all
   end
 
   # GET /games/1
-  # GET /games/1.json
   def show
   end
 
@@ -17,12 +15,7 @@ class GamesController < ApplicationController
     @game = Game.new
   end
 
-  # GET /games/1/edit
-  def edit
-  end
-
   # POST /games
-  # POST /games.json
   def create
     @game = Game.new(game_params)
 
@@ -38,7 +31,6 @@ class GamesController < ApplicationController
   end
 
   # PATCH/PUT /games/1
-  # PATCH/PUT /games/1.json
   def update
     respond_to do |format|
       if @game.update(game_params)
@@ -52,7 +44,6 @@ class GamesController < ApplicationController
   end
 
   # DELETE /games/1
-  # DELETE /games/1.json
   def destroy
     @game.destroy
     respond_to do |format|
@@ -61,28 +52,82 @@ class GamesController < ApplicationController
     end
   end
 
+  def start
+    @game.start!
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'game_wizard',
+          partial: 'games/started',
+          locals: { game: @game, notice: 'Game started' }
+        )
+      end
+    end
+  end
+
   def next_round
-    notice = @game.started? ? 'Game started' : 'Next round started'
     @game.next_round!
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           'game_wizard',
           partial: 'games/started',
-          locals: { game: @game, notice: notice }
+          locals: { game: @game, notice: 'Next round started' }
+        )
+      end
+    end
+  end
+
+  def pending_results
+    @game.pending_results!
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'game_wizard',
+          partial: 'games/started',
+          locals: { game: @game, notice: 'Participants are now waiting for the results' }
+        )
+      end
+    end
+  end
+
+  def finish
+    @game.finish_game!
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'game_wizard',
+          partial: 'games/pending_results',
+          locals: { game: @game, notice: 'Game ended' }
+        )
+      end
+    end
+  end
+
+  def show_results
+    @game.show_results!
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'game_wizard',
+          partial: 'games/started',
+          locals: { game: @game, notice: 'Game ended' }
         )
       end
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def game_params
-      params.require(:game).permit(:name, :number_of_rounds, :number_of_teams, :current_round_number)
-    end
+  def set_game
+    @game = Game.find(params[:id])
+  end
+
+  def round_param
+    params.permit(:round_id)
+  end
+
+  def game_params
+    params.require(:game).permit(:name, :number_of_rounds, :number_of_teams, :current_round_number)
+  end
 end

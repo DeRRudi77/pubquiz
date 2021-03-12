@@ -10,6 +10,8 @@ class Team < ApplicationRecord
 
   accepts_nested_attributes_for :team_answers
 
+  before_create :set_name
+
   def answers_for_current_round
     team_answers.where(question: game.current_round.questions)
   end
@@ -21,8 +23,14 @@ class Team < ApplicationRecord
   end
   # broadcasts_to(:game)
 
-  def display_name(number)
+  def display_name
     name || "Team #{number}"
+  end
+
+  private
+
+  def set_name
+    self.name = display_name
   end
 end
 
@@ -35,12 +43,12 @@ end
 #  number     :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  game_id    :uuid             not nullg
+#  game_id    :uuid             not null
 #
 # Indexes
 #
-#  index_teams_on_game_id  (game_id)
-#  index_teams_on_name     (name) UNIQUE
+#  index_teams_on_game_id           (game_id)
+#  index_teams_on_game_id_and_name  (game_id,name) UNIQUE
 #
 # Foreign Keys
 #

@@ -1,0 +1,22 @@
+<h3><%= team.name %></h3>
+<table class="table is-striped is-hoverable">
+  <thead>
+  <tr>
+    <th>Question</th>
+    <th>Correct Answer</th>
+    <th>Given Answer</th>
+    <th>Score</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% team.team_answers.where(question: round.questions).each do |answer| %>
+    <tr>
+      <td>Question <%= answer.question.number %></td>
+      <td><%= answer.question.answer %></td>
+      <td><%= answer.answer %></td>
+      <td></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

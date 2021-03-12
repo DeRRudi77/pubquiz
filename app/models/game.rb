@@ -2,9 +2,12 @@ class Game < ApplicationRecord
   include RelationshipUpdatable
 
   has_many :rounds, -> { order(:number) }
-  has_many :teams
+  has_many :teams, -> { order(:number) }
   has_one :current_round, ->(game) { where(number: game.current_round_number) }, class_name: 'Round'
   has_one :next_round, ->(game) { where(number: game.current_round_number + 1) }, class_name: 'Round'
+  has_many :started_and_finished_rounds,
+           -> { where(status: [statuses[:started], statuses[:finished]]).order(:number) },
+           class_name: 'Round'
   enum status: %i[pending_start started pending_results finished], _default: "pending_start"
 
   validates :number_of_rounds, presence: true
@@ -16,7 +19,7 @@ class Game < ApplicationRecord
 
   def start!
     started!
-    next_round.started!
+    rounds.first.started!
     update!(current_round_number: (1))
     # make sure all answer objects are ready
     rounds.each do |round|
@@ -26,7 +29,7 @@ class Game < ApplicationRecord
         end
       end
     end
-    teams.reload.each { |team| team.reload.broadcast_replace_to team }
+    broadcast_reload_teams
   end
 
   def next_round!
@@ -34,7 +37,17 @@ class Game < ApplicationRecord
     current_round.finished! if current_round.present?
     next_round.started!
     update!(current_round_number: (current_round_number + 1))
-    teams.reload.each { |team| team.reload.broadcast_replace_to team }
+    broadcast_reload_teams
+  end
+
+  def finish_game!
+    pending_results! unless pending_results?
+    broadcast_reload_teams
+  end
+
+  def show_results!
+    finished! unless finished!
+    broadcast_reload_teams
   end
 
   def reset!
@@ -48,6 +61,10 @@ class Game < ApplicationRecord
   end
 
   private
+
+  def broadcast_reload_teams
+    teams.reload.each { |team| team.reload.broadcast_replace_to team }
+  end
 
   def update_rounds_and_teams
     update_relationship_to_amount(rounds, number_of_rounds)

@@ -40,6 +40,8 @@ en:
   waiting_for_first_round: Answers will appear here if first round has finished.
   start: Start the game
   next_round: Next round
+  pending_results: End rounds
+  finish_game: Finish the game
   helpers:
     submit:
       answer:

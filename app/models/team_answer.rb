@@ -19,6 +19,7 @@ end
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  question_id :uuid             not null
+#
 #  team_id     :uuid             not null
 #
 # Indexes

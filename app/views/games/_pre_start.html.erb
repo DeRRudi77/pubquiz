@@ -38,10 +38,10 @@
       </thead>
 
       <tbody>
-      <% game.teams.each_with_index do |team, index | %>
+      <% game.teams.each_with_index do |team| %>
         <tr>
           <td><%= team.id %></td>
-          <td><%= team.display_name(index) %></td>
+          <td><%= team.display_name %></td>
           <td><%= link_to(nil, team) %></td>
         </tr>
       <% end %>
@@ -53,7 +53,7 @@
     <%= link_to 'Edit', edit_game_path(game), class: "card-footer-item" %>
     <div class="card-footer-item"></div>
     <div class="card-footer-item">
-      <%= form_with(model: game, url: next_round_game_path(game)) do |form| %>
+      <%= form_with(model: game, url: start_game_path(game)) do |form| %>
         <%= form.submit 'Start the game!', class: 'button is-primary is-inverted' %>
       <% end %>
     </div>

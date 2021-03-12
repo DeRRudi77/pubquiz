@@ -8,15 +8,45 @@
     <% end %>
     <h1 class="title"><%= game.name %></h1>
 
-    <% if game.started_and_finished_rounds.count.zero? %>
+    <% if game.rounds.finished.count.zero? %>
       <div class="notification is-success">
         <%= t(:waiting_for_first_round) %>
       </div>
     <% else %>
-      <%= render 'games/round_tabs', game: game %>
+      <div class="tabs">
+        <ul>
+          <li class="is-active"><a>Pictures</a></li>
+          <li><a>Music</a></li>
+          <li><a>Videos</a></li>
+          <li><a>Documents</a></li>
+        </ul>
+      </div>
 
+      <% round = game.rounds.first %>
+      <h2>Round <%=round.number %></h2>
       <% game.teams.each do |team| %>
-        <%= render 'games/team_answers', team: team, round: current_viewing_round(game) %>
+        <h3><%= team.name %></h3>
+        <table class="table is-striped is-hoverable">
+          <thead>
+          <tr>
+            <th>Question</th>
+            <th>Correct Answer</th>
+            <th>Given Answer</th>
+            <th>Score</th>
+          </tr>
+          </thead>
+
+          <tbody>
+            <% team.team_answers.where(question: round.questions).each do |answer| %>
+            <tr>
+              <td>Question <%= answer.question.number %></td>
+              <td><%= answer.question.answer %></td>
+              <td><%= answer.answer %></td>
+              <td></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
       <% end %>
     <% end %>
   </div>

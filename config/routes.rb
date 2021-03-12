@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resources :rounds, only: [ :edit, :update ]
   resources :games do
     member do
+      patch 'start'
       patch 'next_round'
+      patch 'finish'
+      patch 'show_results'
     end
   end
   resources :admins, only: :index

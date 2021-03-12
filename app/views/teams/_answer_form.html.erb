@@ -19,16 +19,14 @@
   <% end %>
 
   <%= form.fields_for(:team_answers, team.current_round_answers) do |answer_form| %>
-    <div>
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-          Question <%= answer_form.object.question.number %>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control is-expanded">
-              <%= answer_form.text_field :answer, class: 'input' %>
-            </div>
+    <div class="field is-horizontal">
+      <div class="field-label is-normal">
+        Question <%= answer_form.object.question.number %>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <div class="control is-expanded">
+            <%= answer_form.text_field :answer, class: 'input' %>
           </div>
         </div>
       </div>

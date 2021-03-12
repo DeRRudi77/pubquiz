@@ -10,6 +10,10 @@ class Round < ApplicationRecord
 
   accepts_nested_attributes_for :questions
 
+  def name
+    "Round #{number}"
+  end
+
   def next_round
     game.rounds.find_by(number: number + 1)
   end
@@ -20,7 +24,7 @@ class Round < ApplicationRecord
 
   private
 
-  def update_questions
+  def create_questions
     update_relationship_to_amount(questions, 10)
   end
 end

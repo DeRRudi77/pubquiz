@@ -3,6 +3,10 @@
     <%= render 'games/pre_start', game: game %>
   <% elsif game.started? %>
     <%= render 'games/started', game: game %>
+  <% elsif game.pending_results? %>
+    <%= render 'games/pending_results', game: game %>
+  <% elsif game.finished? %>
+    <%= render 'games/finished', game: game %>
   <% end %>
 <% end %>
 

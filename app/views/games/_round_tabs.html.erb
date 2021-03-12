@@ -1,0 +1,7 @@
+<div class="tabs">
+  <ul>
+    <% game.started_and_finished_rounds.each do |round| %>
+      <li class="<%= rounds_tab_class(game, round) %>"><a href="<%= game_url(game, round_id: round.id) %>"><%= round.name %></a></li>
+    <% end %>
+  </ul>
+</div>
