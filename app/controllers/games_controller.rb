@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :start, :next_round, :finish]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :start, :next_round, :show_results]
 
   # GET /games
   def index
@@ -105,7 +105,7 @@ class GamesController < ApplicationController
   end
 
   def show_results
-    @game.show_results!
+    @game.finished!
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(

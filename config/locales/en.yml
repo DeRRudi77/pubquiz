@@ -41,7 +41,7 @@ en:
   start: Start the game
   next_round: Next round
   pending_results: End rounds
-  finish_game: Finish the game
+  show_results: Show the results
   helpers:
     submit:
       answer:

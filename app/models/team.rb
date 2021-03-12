@@ -13,7 +13,15 @@ class Team < ApplicationRecord
   before_create :set_name
 
   def answers_for_current_round
-    team_answers.where(question: game.current_round.questions)
+    answers_for_round(game.current_round)
+  end
+
+  def answers_for_round(round)
+    team_answers.where(question: round.questions)
+  end
+
+  def points_for_round(round)
+    answers_for_round(round).sum(:points)
   end
 
   # broadcasts
@@ -25,6 +33,10 @@ class Team < ApplicationRecord
 
   def display_name
     name || "Team #{number}"
+  end
+
+  def total_points
+    team_answers.sum(:points)
   end
 
   private

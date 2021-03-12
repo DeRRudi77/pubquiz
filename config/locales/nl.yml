@@ -39,8 +39,14 @@ nl:
   team_notification: Stuur onderstaande links naar de team captains voor het spel te starten. \nHier kunnen ze de team namen invullen.
   waiting_for_first_round: Als de eerste ronde is beeindigd, zullen de antwoorden hier verschijnen.
   start: Start het spel
-  next_round: Volgende rondes
+  next_round: Volgende ronde
+  pending_results: Einde rondes
+  show_results: Toon resultaten
   helpers:
     submit:
       answer:
         create: "Antwoorden bijwerken"
+      team:
+        update: "Sla de team naam op"
+      round:
+        update: "Volgende ronde"

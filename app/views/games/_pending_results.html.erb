@@ -20,7 +20,7 @@
     <div class="card-footer-item"></div>
     <div class="card-footer-item">
       <%= form_with(model: game, url: show_results_game_path(game)) do |form| %>
-        <%= form.submit :show_results, class: 'button is-primary is-inverted' %>
+        <%= form.submit t(:show_results), class: 'button is-primary is-inverted' %>
       <% end %>
     </div>
   </footer>
