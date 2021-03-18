@@ -1,7 +1,6 @@
 class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :destroy]
 
-
   # GET /rounds/1/edit
   def edit
   end
@@ -14,18 +13,18 @@ class RoundsController < ApplicationController
         if params[:commit] == "Add question"
           @round.questions.create! number: @round.questions.last.number + 1
 
-          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.reload }) }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: "rounds/form", locals: {round: @round.reload}) }
         elsif params[:commit] == "Remove question"
           @round.questions.last.destroy
 
-          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.reload }) }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: "rounds/form", locals: {round: @round.reload}) }
         elsif @round.next_round.present?
-          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round.next_round }) }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: "rounds/form", locals: {round: @round.next_round}) }
         else
-          format.html { redirect_to @round.game, notice: 'You are now ready to start your game.', status: 303 }
+          format.html { redirect_to @round.game, notice: "You are now ready to start your game.", status: 303 }
         end
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: 'rounds/form', locals: { round: @round }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: "rounds/form", locals: {round: @round}) }
       end
     end
   end
@@ -35,7 +34,7 @@ class RoundsController < ApplicationController
   def destroy
     @round.destroy
     respond_to do |format|
-      format.html { redirect_to rounds_url, notice: 'Round was successfully destroyed.' }
+      format.html { redirect_to rounds_url, notice: "Round was successfully destroyed." }
       format.json { head :no_content }
     end
   end

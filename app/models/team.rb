@@ -4,7 +4,7 @@ class Team < ApplicationRecord
   belongs_to :game
 
   has_many :team_answers
-  has_many :current_round_answers, ->(team) { includes(:question).where(question: team.game.current_round.questions).order("questions.number asc") }, class_name: 'TeamAnswer'
+  has_many :current_round_answers, ->(team) { includes(:question).where(question: team.game.current_round.questions).order("questions.number asc") }, class_name: "TeamAnswer"
 
   validates_uniqueness_of :name, case_sensitive: false
 

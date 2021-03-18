@@ -16,8 +16,8 @@ class RoundsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create round" do
-    assert_difference('Round.count') do
-      post rounds_url, params: { round: { ended: @round.ended, game_id: @round.game_id, number_of_questions: @round.number_of_questions, started: @round.started } }
+    assert_difference("Round.count") do
+      post rounds_url, params: {round: {ended: @round.ended, game_id: @round.game_id, number_of_questions: @round.number_of_questions, started: @round.started}}
     end
 
     assert_redirected_to round_url(Round.last)
@@ -34,12 +34,12 @@ class RoundsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update round" do
-    patch round_url(@round), params: { round: { ended: @round.ended, game_id: @round.game_id, number_of_questions: @round.number_of_questions, started: @round.started } }
+    patch round_url(@round), params: {round: {ended: @round.ended, game_id: @round.game_id, number_of_questions: @round.number_of_questions, started: @round.started}}
     assert_redirected_to round_url(@round)
   end
 
   test "should destroy round" do
-    assert_difference('Round.count', -1) do
+    assert_difference("Round.count", -1) do
       delete round_url(@round)
     end
 

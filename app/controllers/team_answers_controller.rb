@@ -8,7 +8,7 @@ class TeamAnswersController < ApplicationController
 
     respond_to do |format|
       if @team.save
-        format.html { redirect_to team_path(id: @team.uuid), notice: 'Answers successfully created.' }
+        format.html { redirect_to team_path(id: @team.uuid), notice: "Answers successfully created." }
       else
         format.html { render :new }
       end
@@ -19,13 +19,7 @@ class TeamAnswersController < ApplicationController
   # PATCH/PUT /answers/1.json
   def update
     respond_to do |format|
-      if @team_answer.update(answer_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team_answer, partial: 'answers/answer', locals: { team_answer: @team_answer }) }
-        format.html { redirect_to team_path(id: team.uuid), notice: 'Answers was successfully updated.' }
-      else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team_answer, partial: 'answers/answer', locals: { team_answer: @team_answer }) }
-        format.html { render :show }
-      end
+      format.turbo_stream { render turbo_stream: turbo_stream.replace(@team_answer, partial: "answers/answer", locals: {team_answer: @team_answer}) }
     end
   end
 
@@ -42,6 +36,6 @@ class TeamAnswersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def answer_params
-    params.require(:team_answer).permit(:answer_1, :answer_2 , :answer_3, :answer_4, :answer_5, :answer_6, :answer_7, :answer_8, :answer_9 , :answer_10)
+    params.require(:team_answer).permit(:answer_1, :answer_2, :answer_3, :answer_4, :answer_5, :answer_6, :answer_7, :answer_8, :answer_9, :answer_10)
   end
 end

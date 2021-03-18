@@ -7,7 +7,6 @@ class Question < ApplicationRecord
       find_or_create_by(team: team)
     end
   end
-
 end
 
 # == Schema Information

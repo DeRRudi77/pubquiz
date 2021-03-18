@@ -16,8 +16,8 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create team" do
-    assert_difference('Team.count') do
-      post teams_url, params: { team: { game_id: @team.game_id, name: @team.name, uuid: @team.uuid } }
+    assert_difference("Team.count") do
+      post teams_url, params: {team: {game_id: @team.game_id, name: @team.name, uuid: @team.uuid}}
     end
 
     assert_redirected_to team_url(Team.last)
@@ -34,12 +34,12 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update team" do
-    patch team_url(@team), params: { team: { game_id: @team.game_id, name: @team.name, uuid: @team.uuid } }
+    patch team_url(@team), params: {team: {game_id: @team.game_id, name: @team.name, uuid: @team.uuid}}
     assert_redirected_to team_url(@team)
   end
 
   test "should destroy team" do
-    assert_difference('Team.count', -1) do
+    assert_difference("Team.count", -1) do
       delete team_url(@team)
     end
 

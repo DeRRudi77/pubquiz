@@ -21,10 +21,10 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.turbo_stream { render turbo_stream: turbo_stream.replace('game_wizard', partial: 'games/game_wizard', locals: { game: @game }) }
-        format.html { redirect_to @game, notice: 'Game was successfully created.' }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("game_wizard", partial: "games/game_wizard", locals: {game: @game}) }
+        format.html { redirect_to @game, notice: "Game was successfully created." }
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace('game_wizard', partial: 'games/form', locals: { game: @game }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("game_wizard", partial: "games/form", locals: {game: @game}) }
         format.html { render :new }
       end
     end
@@ -34,10 +34,10 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace('game_wizard', partial: 'games/game_wizard', locals: { game: @game }) }
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("game_wizard", partial: "games/game_wizard", locals: {game: @game}) }
+        format.html { redirect_to @game, notice: "Game was successfully updated." }
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@game, partial: 'games/form', locals: { game: @game }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@game, partial: "games/form", locals: {game: @game}) }
         format.html { render :edit }
       end
     end
@@ -47,7 +47,7 @@ class GamesController < ApplicationController
   def destroy
     @game.destroy
     respond_to do |format|
-      format.html { redirect_to games_url, notice: 'Game was successfully destroyed.' }
+      format.html { redirect_to games_url, notice: "Game was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -57,9 +57,9 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          'game_wizard',
-          partial: 'games/started',
-          locals: { game: @game, notice: 'Game started' }
+          "game_wizard",
+          partial: "games/started",
+          locals: {game: @game, notice: "Game started"}
         )
       end
     end
@@ -70,9 +70,9 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          'game_wizard',
-          partial: 'games/started',
-          locals: { game: @game, notice: 'Next round started' }
+          "game_wizard",
+          partial: "games/started",
+          locals: {game: @game, notice: "Next round started"}
         )
       end
     end
@@ -83,9 +83,9 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          'game_wizard',
-          partial: 'games/started',
-          locals: { game: @game, notice: 'Participants are now waiting for the results' }
+          "game_wizard",
+          partial: "games/started",
+          locals: {game: @game, notice: "Participants are now waiting for the results"}
         )
       end
     end
@@ -96,9 +96,9 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          'game_wizard',
-          partial: 'games/pending_results',
-          locals: { game: @game, notice: 'Game ended' }
+          "game_wizard",
+          partial: "games/pending_results",
+          locals: {game: @game, notice: "Game ended"}
         )
       end
     end
@@ -109,9 +109,9 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          'game_wizard',
-          partial: 'games/started',
-          locals: { game: @game, notice: 'Game ended' }
+          "game_wizard",
+          partial: "games/started",
+          locals: {game: @game, notice: "Game ended"}
         )
       end
     end
