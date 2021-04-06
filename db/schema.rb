@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_12_200039) do
+ActiveRecord::Schema.define(version: 2021_04_06_142201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_200039) do
     t.uuid "team_id", null: false
     t.text "answer"
     t.integer "status", default: 0
-    t.integer "points"
+    t.float "points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["question_id", "team_id"], name: "index_team_answers_on_question_id_and_team_id", unique: true
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 2021_03_12_200039) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "total_points"
     t.index ["game_id", "name"], name: "index_teams_on_game_id_and_name", unique: true
     t.index ["game_id"], name: "index_teams_on_game_id"
   end

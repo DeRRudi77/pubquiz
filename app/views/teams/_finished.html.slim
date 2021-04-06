@@ -1,7 +1,3 @@
 h3 = team.name
 
-div
-  h4 Game Over
-  p
-    'Your team ended at the '' place.
-    'You've earned a total of x points
+= render 'games/results', game: team.game, team: team

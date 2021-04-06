@@ -60,6 +60,12 @@ class Game < ApplicationRecord
     100 / number_of_rounds
   end
 
+  def results
+    teams.order(:total_points).each_with_object({}) do |team, map|
+      map[team.total_points].present? ? map[team.total_points] << team : map[team.total_points] = [team]
+    end
+  end
+
   private
 
   def broadcast_reload_teams

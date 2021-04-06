@@ -35,8 +35,8 @@ class Team < ApplicationRecord
     name || "Team #{number}"
   end
 
-  def total_points
-    team_answers.sum(:points)
+  def update_total_points!
+    update(total_points: team_answers.sum(:points))
   end
 
   private
@@ -50,12 +50,13 @@ end
 #
 # Table name: teams
 #
-#  id         :uuid             not null, primary key
-#  name       :string
-#  number     :integer          not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  game_id    :uuid             not null
+#  id           :uuid             not null, primary key
+#  name         :string
+#  number       :integer          not null
+#  total_points :float
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  game_id      :uuid             not null
 #
 # Indexes
 #

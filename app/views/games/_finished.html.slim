@@ -2,20 +2,7 @@
   .content
     h1.title = game.name
     == render 'components/form/notice', notice: notice
-    table.table.is-striped.is-hoverable
-      thead
-        tr
-          th Team
-          - game.rounds.each do |round|
-            th Points for #{ round.name }
-          th  Total points
-      tbody
-        - game.teams.each do |team|
-          tr
-            td = team.name
-            - game.rounds.each do |round|
-              td = team.points_for_round(round)
-            td = team.total_points
+    == render 'games/results', game: game, team: nil
 
   footer.card-footer
     .card-footer-item

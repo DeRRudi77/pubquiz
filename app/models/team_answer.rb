@@ -6,6 +6,14 @@ class TeamAnswer < ApplicationRecord
   has_one :game, through: :round
 
   enum status: %i[pending correct incorrect], _default: "pending"
+
+  after_update :update_team_total_points
+
+  private
+
+  def update_team_total_points
+    team.update_total_points!
+  end
 end
 
 # == Schema Information
@@ -14,12 +22,11 @@ end
 #
 #  id          :uuid             not null, primary key
 #  answer      :text
-#  points      :integer
+#  points      :float
 #  status      :integer          default("pending")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  question_id :uuid             not null
-#
 #  team_id     :uuid             not null
 #
 # Indexes

@@ -1,0 +1,20 @@
+div
+  h4 Results for #{game.name}
+  table.table.is-hoverable
+    thead
+      tr
+        th Position
+        th Team
+        th Total points
+        - game.rounds.each do |round|
+          th = round.name.capitalize
+    tbody
+      - game.results.each_with_index do |(points, teams), index|
+        - teams.each_with_index do |list_team, team_index|
+          tr *{class: list_team.id == team&.id ? 'is-selected' : '' }
+            td = team_index.zero? ? index + 1 : ''
+            td = list_team.name
+            td = points
+            - game.rounds.each do |round|
+              td = list_team.points_for_round(round)
+
