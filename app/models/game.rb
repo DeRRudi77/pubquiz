@@ -61,7 +61,7 @@ class Game < ApplicationRecord
   end
 
   def results
-    teams.order(:total_points).each_with_object({}) do |team, map|
+    teams.reorder(total_points: :desc).each_with_object({}) do |team, map|
       map[team.total_points].present? ? map[team.total_points] << team : map[team.total_points] = [team]
     end
   end
