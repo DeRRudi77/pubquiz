@@ -60,5 +60,3 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "hotwire-rails", "~> 0.1.3"
 
 gem "slim", "~> 4.1"
-
-gem "ranked-model", "~> 0.4.7"
