@@ -1,0 +1,10 @@
+= form_with(model: game) do |form|
+  == render 'components/form/form_errors', object: game
+  .field.is-horizontal
+    = render 'components/form/text_field', form: form, field: :name, width: '50%'
+  .field.is-horizontal
+    = render 'components/form/number_field', form: form, field: :number_of_rounds
+  .field.is-horizontal
+    = render 'components/form/number_field', form: form, field: :number_of_teams
+  .field.is-horizontal
+    = render 'components/form/button', form: form

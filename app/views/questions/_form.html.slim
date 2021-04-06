@@ -1,0 +1,13 @@
+= turbo_frame_tag dom_id(question)
+  = form_with(model: question, class: 'box is-shadowless') do |form|
+    == render 'components/form/form_errors', object: question
+
+    h4.title.is-4 Question #{ question.number }
+
+    .field.is-horizontal
+      == render 'components/form/text_field', form: form, field: :question
+      .field-label <!-- Left empty for spacing -->
+      .field-body
+    .field.is-horizontal
+      = render 'components/form/text_field', form: form, field: :answer
+      = render 'components/form/button', form: form

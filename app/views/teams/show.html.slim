@@ -1,0 +1,9 @@
+= turbo_stream_from @team
+
+.column
+  .card
+    header.card-header
+      p.card-header-title = @team.game.name
+    .card-content
+      .content
+        == render 'team', team: @team

@@ -1,0 +1,15 @@
+h3 = team.name
+table.table.is-striped.is-hoverable
+  thead
+    tr
+      th Question
+      th Correct Answer
+      th Given Answer
+      th Score
+
+  tbody
+    - team.team_answers.where(question: round.questions).each do |answer|
+      tr
+        td Question #{ answer.question.number }
+        td = answer.question.answer
+        td = answer.answer

@@ -40,7 +40,7 @@ class Game < ApplicationRecord
     broadcast_reload_teams
   end
 
-  def finish_game!
+  def process_results!
     pending_results! unless pending_results?
     broadcast_reload_teams
   end

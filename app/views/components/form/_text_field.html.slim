@@ -1,0 +1,8 @@
+- field_width = local_assigns.fetch :width, '100%'
+
+.field-label.is-normal
+  = form.label field, class: 'label'
+.field-body
+  .field
+    .control.is-expanded
+      = form.text_field field, style: "width: #{field_width}", class: 'input'

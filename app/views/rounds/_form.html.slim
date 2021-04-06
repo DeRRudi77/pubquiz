@@ -1,0 +1,32 @@
+= turbo_frame_tag dom_id(round)
+  = form_with(model: round, class: 'box is-shadowless', data: { 'turbo-frame': round_form_turbo_frame(round) }) do |form|
+    - if round.errors.any?
+      #error_explanation
+        h2 #{ pluralize(round.errors.count, "error") } prohibited this round from being saved:
+
+        ul
+          - round.errors.each do |error|
+            li = error.full_message
+
+    h4 Progress:
+    progress.progress.is-info *{value: round.progress, max: 100 } = round.progress
+
+    .title.is-5 #{ t(:number_of_questions_title, number: round.number) } (#{ t(:max_notice)})
+
+    = form.fields_for(:questions, round.questions) do |question_form|
+      div
+        h4.title.is-4 Question #{ question_form.object.number }
+        .field.is-horizontal
+          == render 'components/form/text_field', form: question_form, field: :question
+          == render 'components/form/text_field', form: question_form, field: :answer
+
+    .field.is-horizontal
+      .field-label <!-- Left empty for spacing -->
+      .field-body
+        .field
+          .control.is-pulled-right
+            - unless round.questions.count == 0
+              = form.submit 'Remove question', class: 'button is-danger'
+            - unless round.questions.count == 10
+              = form.submit 'Add question', class: 'button is-primary'
+      == render 'components/form/button', form: form, position: 'right'

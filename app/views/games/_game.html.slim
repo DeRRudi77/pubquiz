@@ -1,0 +1,10 @@
+= turbo_frame_tag dom_id(game)
+  - if game.pending_start?
+    == render 'games/pre_start', game: game, notice: notice
+  - elsif game.started?
+    == render 'games/started', game: game, notice: notice
+  - elsif game.pending_results?
+    == render 'games/pending_results', game: game, notice: notice
+  - elsif game.finished?
+    == render 'games/finished', game: game, notice: notice
+

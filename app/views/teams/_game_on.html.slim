@@ -1,0 +1,5 @@
+h3 = team.name
+
+div
+  h4 = t('round', number: team.game.current_round.number)
+  = render 'teams/answer_form', team: team, notice: notice

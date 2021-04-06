@@ -1,0 +1,38 @@
+.card-content
+  .content
+    h1.title = game.name
+    == render 'components/form/notice', notice: notice
+    table.table.is-striped.is-hoverable
+      thead
+        tr
+          th Round number
+          th Number of questions
+
+      tbody
+      - game.rounds.each do |round|
+        tr
+          td = round.number
+          td = round.questions.count
+
+    .notification.is-warning = t(:team_notification)
+
+    table.table.is-striped.is-hoverable
+      thead
+        tr
+          th Team
+          th Name
+          th Link
+
+      tbody
+        - game.teams.each_with_index do |team|
+          tr
+            td = team.id
+            td = team.display_name
+            td = link_to(nil, team)
+
+  footer.card-footer
+    = link_to 'Edit', edit_game_path(game), class: "card-footer-item"
+    .card-footer-item
+    .card-footer-item
+      = form_with(model: game, url: start_game_path(game)) do |form|
+        = form.submit 'Start the game!', class: 'button is-primary is-inverted'

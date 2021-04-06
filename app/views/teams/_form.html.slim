@@ -1,0 +1,13 @@
+= form_with(model: team, id: dom_id(team)) do |form|
+  == render 'components/form/notice'
+  == render 'components/form/form_errors', object: team
+
+  .field.is-horizontal
+    .field-label.is-normal
+      label.label = form.label :name
+    .field-body
+      .field.has-addons
+        .control
+          = form.text_field :name, class: 'input'
+        .control
+          = form.submit class: 'button is-primary'

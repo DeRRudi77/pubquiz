@@ -40,8 +40,9 @@ nl:
   waiting_for_first_round: Als de eerste ronde is beeindigd, zullen de antwoorden hier verschijnen.
   start: Start het spel
   next_round: Volgende ronde
-  pending_results: Einde rondes
+  pending_results: Beeindig rondes en verwerk resultaten
   show_results: Toon resultaten
+  finish_game: Beeindig spel
   helpers:
     submit:
       answer:

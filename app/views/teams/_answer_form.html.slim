@@ -1,0 +1,14 @@
+= form_with(model: team, id: dom_id(team)) do |form|
+  == render 'components/form/notice', notice: notice
+  == render 'components/form/form_errors', object: team
+
+  = form.fields_for(:team_answers, team.current_round_answers) do |answer_form|
+    .field.is-horizontal
+      .field-label.is-normal Question #{ answer_form.object.question.number }
+      .field-body
+        .field
+          .control.is-expanded
+            = answer_form.text_field :answer, class: 'input'
+
+  .field.is-horizontal
+    == render 'components/form/button', form: form, position: 'right', text: 'Save answers'

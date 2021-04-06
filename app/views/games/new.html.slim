@@ -1,0 +1,7 @@
+.column
+  .card
+    = turbo_frame_tag 'game_wizard'
+      .card-content
+        .content
+          h1.title = t(:new_game)
+          == render 'form', game: @game

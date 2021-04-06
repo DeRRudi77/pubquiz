@@ -1,0 +1,18 @@
+nav.navbar.is-spaced.is-info *{role:"navigation", 'aria-label':"main navigation"}
+  .navbar-brand
+    a.navbar-item href="/"
+      p.title.is-2 Pub Quizz
+
+    a.navbar-burger *{role:"button", 'aria-label':"menu", 'aria-expanded':false, 'data-target':"navbarBasicExample"}
+      span *{'aria-hidden': true}
+      span *{'aria-hidden': true}
+      span *{'aria-hidden': true}
+
+  #navbarBasicExample.navbar-menu
+    .navbar-start
+      a.navbar-item Home
+
+    .navbar-end
+      .navbar-item
+        .buttons
+          a.button.is-light Log in

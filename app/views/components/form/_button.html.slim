@@ -1,0 +1,8 @@
+- position = local_assigns.fetch :position, 'left'
+- text = local_assigns.fetch :text, nil
+
+.field-label <!-- Left empty for spacing -->
+.field-body
+  .field
+    div *{class: "control is-pulled-#{position}"}
+      = form.submit text, class: 'button is-primary'

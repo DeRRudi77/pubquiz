@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :start, :next_round, :show_results]
+  before_action :set_game, only: [:show, :update, :destroy, :start, :next_round, :show_results, :process_results]
 
   # GET /games
   def index
@@ -78,40 +78,27 @@ class GamesController < ApplicationController
     end
   end
 
-  def pending_results
-    @game.pending_results!
+  def process_results
+    @game.process_results!
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           "game_wizard",
-          partial: "games/started",
+          partial: "games/pending_results",
           locals: {game: @game, notice: "Participants are now waiting for the results"}
         )
       end
     end
   end
 
-  def finish
-    @game.finish_game!
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          "game_wizard",
-          partial: "games/pending_results",
-          locals: {game: @game, notice: "Game ended"}
-        )
-      end
-    end
-  end
-
   def show_results
-    @game.finished!
+    @game.show_results!
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           "game_wizard",
-          partial: "games/started",
-          locals: {game: @game, notice: "Game ended"}
+          partial: "games/finished",
+          locals: {game: @game, notice: "Game finished"}
         )
       end
     end
