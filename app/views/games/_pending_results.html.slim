@@ -1,9 +1,9 @@
 .card-content
-  .content
-    h1.title = game.name
-    == render 'components/form/notice', notice: notice
-    == render 'games/round_tabs', game: game
+  h1.title = game.name
+  == render 'components/form/notice', notice: notice
+  == render 'games/round_tabs', game: game
 
+  .content
     - game.teams.each do |team|
       == render 'games/team_answers', team: team, round: current_viewing_round(game)
 

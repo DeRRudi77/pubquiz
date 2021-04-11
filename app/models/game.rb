@@ -48,6 +48,7 @@ class Game < ApplicationRecord
 
   def show_results!
     finished! unless finished!
+    teams.each(&:update_total_points!)
     broadcast_reload_teams
   end
 

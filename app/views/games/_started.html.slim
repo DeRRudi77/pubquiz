@@ -1,22 +1,19 @@
-/ .card-content
-/   .content
-h1.title  = game.name
-== render 'components/form/notice', notice: notice
-- if game.visible_rounds.count.zero?
-  .notification.is-success = t(:waiting_for_first_round)
--else
+.card-content
+  h1.title  = game.name
+  == render 'components/form/notice', notice: notice
   == render 'games/round_tabs', game: game
 
-  - game.teams.each do |team|
-    == render 'games/team_answers', team: team, round: current_viewing_round(game)
+  .content
+    - game.teams.each do |team|
+      == render 'games/team_answers', team: team, round: current_viewing_round(game)
 
-  / footer.card-footer
-  /   .card-footer-item
-  /   .card-footer-item
-  /   .card-footer-item
-  /     - if game.next_round.present?
-  /       = form_with(model: game, url: next_round_game_path(game)) do |form|
-  /         = form.submit t(:next_round), class: 'button is-primary is-inverted'
-  /     - else
-  /       = form_with(model: game, url: process_results_game_path(game)) do |form|
-  /         = form.submit t(:process_results), class: 'button is-primary is-inverted'
+  footer.card-footer
+    .card-footer-item
+    .card-footer-item
+    .card-footer-item
+      - if game.next_round.present?
+        = form_with(model: game, url: next_round_game_path(game)) do |form|
+          = form.submit t(:next_round), class: 'button is-primary is-inverted'
+      - else
+        = form_with(model: game, url: process_results_game_path(game)) do |form|
+          = form.submit t(:process_results), class: 'button is-primary is-inverted'
