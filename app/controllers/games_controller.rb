@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :update, :destroy, :start, :next_round, :show_results, :process_results]
+  before_action :set_game, only: [:show, :update, :destroy, :edit, :start, :next_round, :show_results, :process_results]
 
   # GET /games
   def index
@@ -15,14 +15,18 @@ class GamesController < ApplicationController
     @game = Game.new
   end
 
+  def edit
+  end
+
   # POST /games
   def create
     @game = Game.new(game_params)
 
     respond_to do |format|
       if @game.save
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("game_wizard", partial: "games/game_wizard", locals: {game: @game}) }
-        format.html { redirect_to @game, notice: "Game was successfully created." }
+        format.html { redirect_to edit_game_path(@game, step: 2), status: 303 }
+        # format.turbo_stream { render turbo_stream: turbo_stream.replace("game_wizard", partial: "games/game_wizard", locals: {game: @game}) }
+        # format.html { redirect_to @game, notice: "Game was successfully created." }
       else
         format.turbo_stream { render turbo_stream: turbo_stream.replace("game_wizard", partial: "games/form", locals: {game: @game}) }
         format.html { render :new }
@@ -58,7 +62,7 @@ class GamesController < ApplicationController
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           "game_wizard",
-          partial: "games/started",
+          partial: "games/game",
           locals: {game: @game, notice: "Game started"}
         )
       end
@@ -71,7 +75,7 @@ class GamesController < ApplicationController
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           "game_wizard",
-          partial: "games/started",
+          partial: "games/game",
           locals: {game: @game, notice: "Next round started"}
         )
       end
@@ -84,7 +88,7 @@ class GamesController < ApplicationController
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           "game_wizard",
-          partial: "games/pending_results",
+          partial: "games/game",
           locals: {game: @game, notice: "Participants are now waiting for the results"}
         )
       end
@@ -97,7 +101,7 @@ class GamesController < ApplicationController
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
           "game_wizard",
-          partial: "games/finished",
+          partial: "games/game",
           locals: {game: @game, notice: "Game finished"}
         )
       end

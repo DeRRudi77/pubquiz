@@ -5,8 +5,8 @@ class Game < ApplicationRecord
   has_many :teams, -> { order(:number) }
   has_one :current_round, ->(game) { where(number: game.current_round_number) }, class_name: "Round"
   has_one :next_round, ->(game) { where(number: game.current_round_number + 1) }, class_name: "Round"
-  has_many :started_and_finished_rounds,
-    -> { where(status: [statuses[:started], statuses[:finished]]).order(:number) },
+  has_many :visible_rounds,
+    -> { where(status: [statuses[:started], statuses[:finished], statuses[:scored]]).order(:number) },
     class_name: "Round"
   enum status: %i[pending_start started pending_results finished], _default: "pending_start"
 
@@ -41,6 +41,7 @@ class Game < ApplicationRecord
   end
 
   def process_results!
+    current_round.finished!
     pending_results! unless pending_results?
     broadcast_reload_teams
   end

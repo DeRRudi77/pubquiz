@@ -17,7 +17,7 @@ class Team < ApplicationRecord
   end
 
   def answers_for_round(round)
-    team_answers.where(question: round.questions)
+    team_answers.includes(:question).order("questions.number asc").where(question: round.questions)
   end
 
   def points_for_round(round)
@@ -26,8 +26,7 @@ class Team < ApplicationRecord
 
   # broadcasts
   after_update_commit -> do
-    # broadcast_replace_to(game)
-    game.reload.broadcast_replace_to game
+    game.reload.broadcast_replace_to(game)
   end
   # broadcasts_to(:game)
 

@@ -9,6 +9,6 @@ Rails.application.routes.draw do
       patch "show_results"
     end
   end
-  resources :teams, only: [:show, :update, :edit]
-  resources :team_answers, only: [:create, :update]
+  resources :teams, only: [:show, :update]
+  resources :team_answers, only: [:update]
 end

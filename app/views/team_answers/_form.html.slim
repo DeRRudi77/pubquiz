@@ -1,0 +1,14 @@
+= form_with(model: answer, data: { controller: :answer, answer_target: "form" }) do |form|
+  .field.is-horizontal
+    .field-body
+      .field.is-narrow
+        .control
+          label.radio
+            = form.radio_button :points, 0.0, data: { action: "answer#submit" }
+            = 0
+          label.radio
+            = form.radio_button :points, 0.5, data: { action: "answer#submit" }
+            = 0.5
+          label.radio
+            = form.radio_button :points, 1.0, data: { action: "answer#submit" }
+            = 1

@@ -3,8 +3,9 @@ class Round < ApplicationRecord
 
   belongs_to :game
   has_many :questions, -> { order(:number) }, dependent: :destroy
+  has_many :team_answers, through: :questions
 
-  enum status: %i[pending_start started finished], _default: :pending_start
+  enum status: %i[pending_start started finished scored], _default: :pending_start
 
   after_create :create_questions
 
@@ -20,6 +21,10 @@ class Round < ApplicationRecord
 
   def progress
     100 / (game.number_of_rounds + 1) * number
+  end
+
+  def all_answers_scored?
+    team_answers.where(points: nil).count.zero?
   end
 
   private

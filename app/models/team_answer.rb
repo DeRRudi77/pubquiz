@@ -7,11 +7,12 @@ class TeamAnswer < ApplicationRecord
 
   enum status: %i[pending correct incorrect], _default: "pending"
 
-  after_update :update_team_total_points
+  after_update :update_team_total_points, if: proc { |answer| answer.round.all_answers_scored? }
 
   private
 
   def update_team_total_points
+    round.scored!
     team.update_total_points!
   end
 end

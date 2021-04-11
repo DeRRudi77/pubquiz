@@ -1,8 +1,10 @@
 .column
   .card
-    = turbo_frame_tag 'game_wizard' do
-      = turbo_frame_tag dom_id(@game) do
+    - if params[:step] == "2"
+      == render 'games/game_wizard', game: @game
+    - else
+      = turbo_frame_tag 'game_wizard' do
         .card-content
           .content
-            h1.title = @game.name
+            h1.title = t(:new_game)
             == render 'form', game: @game

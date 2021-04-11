@@ -1,6 +1,9 @@
-.tabs
+.tabs.is-boxed
   ul
-    - game.started_and_finished_rounds.each do |round|
+    - game.visible_rounds.each do |round|
       li *{ class: rounds_tab_class(game, round) }
-        a *{ href: game_url(game, round_id: round.id) }
+        a *{ href: game_path(game, round_id: round.id) }
+          - if round.scored?
+            span.icon.is-small
+              i.fas.fa-check-square aria-hidden="true"
           = round.name
