@@ -1,12 +1,13 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
-  # GET /questions or /questions.json
+  # GET /questions
   def index
     @questions = Question.all
   end
 
-  # GET /questions/1 or /questions/1.json
+  # GET /questions/1
   def show
   end
 
@@ -19,7 +20,7 @@ class QuestionsController < ApplicationController
   def edit
   end
 
-  # POST /questions or /questions.json
+  # POST /questions
   def create
     @question = Question.new(question_params)
 
@@ -32,7 +33,7 @@ class QuestionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /questions/1 or /questions/1.json
+  # PATCH/PUT /questions/1
   def update
     respond_to do |format|
       if @question.update(question_params)
@@ -43,7 +44,7 @@ class QuestionsController < ApplicationController
     end
   end
 
-  # DELETE /questions/1 or /questions/1.json
+  # DELETE /questions/1
   def destroy
     @question.destroy
     respond_to do |format|

@@ -2,12 +2,10 @@ class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :update]
 
   # GET /teams/1
-  # GET /teams/1.json
   def show
   end
 
   # PATCH/PUT /teams/1
-  # PATCH/PUT /teams/1.json
   def update
     respond_to do |format|
       if @team.update(team_params)

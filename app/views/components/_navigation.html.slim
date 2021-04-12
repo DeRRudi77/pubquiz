@@ -15,4 +15,7 @@ nav.navbar.is-spaced.is-info *{role:"navigation", 'aria-label':"main navigation"
     .navbar-end
       .navbar-item
         .buttons
-          a.button.is-light Log in
+          - if user_signed_in?
+            = link_to "Sign out", destroy_user_session_path, :method => :delete, class: "button is-light"
+          - else
+            a.button.is-light Log in

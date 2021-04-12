@@ -1,12 +1,12 @@
 class RoundsController < ApplicationController
   before_action :set_round, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /rounds/1/edit
   def edit
   end
 
   # PATCH/PUT /rounds/1
-  # PATCH/PUT /rounds/1.json∞
   def update
     respond_to do |format|
       if @round.update(round_params)
@@ -30,12 +30,10 @@ class RoundsController < ApplicationController
   end
 
   # DELETE /rounds/1
-  # DELETE /rounds/1.json
   def destroy
     @round.destroy
     respond_to do |format|
       format.html { redirect_to rounds_url, notice: "Round was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
