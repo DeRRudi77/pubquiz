@@ -3,7 +3,7 @@
     .content
       h1.title = @game.name
 
-      == render 'rounds/form', round: @game.next_round
+      == render 'rounds/form', round: @game.first_round
 
   footer.card-footer
     = link_to 'Edit', edit_game_path(@game), class: "card-footer-item"

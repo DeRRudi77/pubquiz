@@ -6,12 +6,14 @@
       thead
         tr
           th Round number
+          th Round name
           th Number of questions
 
       tbody
       - game.rounds.each do |round|
         tr
           td = round.number
+          td = round.name
           td = round.questions.count
 
     .notification.is-warning = t(:team_notification)

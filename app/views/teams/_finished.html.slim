@@ -1,3 +1,23 @@
 h3 = team.name
 
 = render 'games/results', game: team.game, team: team
+
+div
+  h2 Your answers
+  - team.game.rounds.each do |round|
+    h3 = "Answers for #{round.name}"
+    table.table.is-striped.is-hoverable
+      thead
+        tr
+          th Question
+          th Correct Answer
+          th Given Answer
+          th Points
+
+      tbody
+        - team.answers_for_round(round).each do |answer|
+          tr
+            td Question #{ answer.question.number }
+            td = answer.question.answer
+            td = answer.answer
+            td = answer.points

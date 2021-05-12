@@ -7,6 +7,8 @@
 
     .title.is-5 #{ t(:number_of_questions_title, number: round.number) } (#{ t(:max_notice)})
 
+    == render 'components/form/text_field', form: form, field: :title
+
     = form.fields_for(:questions, round.questions) do |question_form|
       div
         h4.title.is-4 Question #{ question_form.object.number }

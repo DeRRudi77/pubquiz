@@ -1,8 +1,10 @@
 class Game < ApplicationRecord
   include RelationshipUpdatable
 
-  has_many :rounds, -> { order(:number) }
-  has_many :teams, -> { order(:number) }
+  has_many :rounds, -> { order(:number) }, dependent: :destroy
+  has_many :teams, -> { order(:number) }, dependent: :destroy
+
+  has_one :first_round, -> { where(number: 1) }, class_name: "Round"
   has_one :current_round, ->(game) { where(number: game.current_round_number) }, class_name: "Round"
   has_one :next_round, ->(game) { where(number: game.current_round_number + 1) }, class_name: "Round"
   has_many :visible_rounds,

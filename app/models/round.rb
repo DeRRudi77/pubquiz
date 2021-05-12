@@ -12,7 +12,7 @@ class Round < ApplicationRecord
   accepts_nested_attributes_for :questions
 
   def name
-    "Round #{number}"
+    "Round #{number}: #{title}"
   end
 
   def next_round
@@ -39,8 +39,10 @@ end
 # Table name: rounds
 #
 #  id         :uuid             not null, primary key
+#  name       :string
 #  number     :integer          not null
 #  status     :integer          default("pending_start")
+#  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  game_id    :uuid             not null

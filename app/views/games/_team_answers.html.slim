@@ -1,5 +1,5 @@
 .block
-  h3 = team.name
+  h3 = "#{team.name} (#{team.total_points})"
   table.table.is-striped.is-hoverable
     thead
       tr
@@ -16,3 +16,10 @@
           td = answer.answer
           td
             == render 'team_answers/form', answer: answer
+      tr
+        td Total points
+        td
+        td
+        td
+          = turbo_frame_tag "points_#{dom_id(round)}_#{dom_id(team)}"
+            = team.answers_for_round(round).sum(:points)
