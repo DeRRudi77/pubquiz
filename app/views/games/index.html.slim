@@ -1,20 +1,28 @@
-p#notice = notice
+.column
+  .card
+    .card-content
+      .content
+        h1 Your Games
+        == render 'components/form/notice', notice: notice
+        .is-flex.is-justify-content-flex-end
+          = link_to 'New Game', new_game_path, class: 'button is-primary'
+        div
+          table.table.is-hoverable
+            thead
+              tr
+                th Name
+                th Status
+                th Actions
+            tbody
+              - @games.each do |game|
+                tr
+                  td = link_to game.name, game
+                  td
+                    span.tag.is-medium *{class: game_state_class(game.status)} = t(game.status)
+                  td
+                    = link_to edit_game_path(game) do
+                      i.ml-2.fas.fa-border.fa-pen
+                    = link_to game, method: :delete, data: { confirm: 'Are you sure?' }
+                      i.ml-1.fas.fa-border.fa-trash
 
-h1 Games
 
-table
-  thead
-    tr
-      th *{colspan: 3}
-
-  tbody
-    - @games.each do |game|
-      tr
-        td = "#{game.name} (#{game.status})"
-        td = link_to 'Show', game
-        td = link_to 'Edit', edit_game_path(game)
-        td = link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' }
-
-br
-
-= link_to 'New Game', new_game_path
