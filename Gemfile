@@ -6,6 +6,7 @@ ruby "3.0.0"
 gem 'bcrypt', '~> 3.1.7'
 gem "bootsnap", ">= 1.4.4", require: false
 gem "devise", "~> 4.7"
+gem "hiredis", "~> 0.6.3"
 gem "hotwire-rails", "~> 0.1.3"
 gem "pg", "~> 1.2.3"
 gem "puma", "~> 5.0"

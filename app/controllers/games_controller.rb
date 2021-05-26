@@ -1,10 +1,10 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :update, :destroy, :edit, :start, :next_round, :show_results, :process_results]
-  before_action :authenticate_user!
+  before_action :set_game, only: [:show, :update, :destroy, :edit, :start, :next_round, :show_results, :process_results, :join]
+  before_action :authenticate_user!, except: [:join]
 
   # GET /games
   def index
-    @games = Game.all
+    @games = Game.all.order(created_at: :desc)
   end
 
   # GET /games/1
@@ -17,6 +17,9 @@ class GamesController < ApplicationController
   end
 
   def edit
+  end
+
+  def join
   end
 
   # POST /games

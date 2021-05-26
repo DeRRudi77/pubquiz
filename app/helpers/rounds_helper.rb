@@ -4,7 +4,7 @@ module RoundsHelper
   end
 
   def rounds_tab_class(game, round)
-    current_viewing_round(game).id == round.id ? "is-active" : ""
+    current_viewing_round(game)&.id == round.id ? "is-active" : ""
   end
 
   def current_viewing_round(game)
@@ -13,7 +13,7 @@ module RoundsHelper
   end
 
   def round_to_show(game)
-    game.rounds.where(status: [:started, :finished]).first || game.rounds.scored.last
+    game.rounds.where(status: [:finished]).first || game.rounds.scored.last
   end
 
   def round_param

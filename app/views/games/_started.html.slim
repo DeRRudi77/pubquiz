@@ -4,8 +4,11 @@
   == render 'games/round_tabs', game: game
 
   .content
-    - game.teams.each do |team|
-      == render 'games/team_answers', team: team, round: current_viewing_round(game)
+    - if game.rounds.finished.count > 0
+      - game.teams.each do |team|
+        == render 'games/team_answers', team: team, round: current_viewing_round(game)
+    - else
+      p Answers will appear here
 
   footer.card-footer
     .card-footer-item

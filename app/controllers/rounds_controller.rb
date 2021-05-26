@@ -46,6 +46,6 @@ class RoundsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def round_params
-    params.require(:round).permit(:commit, :name, :number_of_questions, questions_attributes: [:id, :question, :answer])
+    params.require(:round).permit(:commit, :title, :number_of_questions, questions_attributes: [:id, :question, :answer])
   end
 end

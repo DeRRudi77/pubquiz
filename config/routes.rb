@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       patch "next_round"
       patch "process_results"
       patch "show_results"
+      get "join"
     end
   end
   resources :teams, only: [:show, :update]
