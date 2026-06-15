@@ -22,7 +22,7 @@
                   td
                     = link_to edit_game_path(game) do
                       i.ml-2.fas.fa-border.fa-pen
-                    = link_to game, method: :delete, data: { confirm: 'Are you sure?' }
+                    = link_to game, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' }
                       i.ml-1.fas.fa-border.fa-trash
 
 
