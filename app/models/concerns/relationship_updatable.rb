@@ -10,7 +10,7 @@ module RelationshipUpdatable
       relationship.last(relationship.count - amount).each(&:destroy!)
     elsif amount > relationship.count
       (amount - relationship.count).times do
-        relationship.create!(number: (relationship.last.number + 1))
+        relationship.create!(number: (relationship.maximum(:number) || 0) + 1)
       end
     end
   end

@@ -15,6 +15,7 @@ class TeamAnswersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_answer
     @team_answer = TeamAnswer.find(params[:id])
+    require_game_owner!(@team_answer.game)
   end
 
   # Only allow a list of trusted parameters through.

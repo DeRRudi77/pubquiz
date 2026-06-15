@@ -42,6 +42,7 @@ class RoundsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_round
     @round = Round.find(params[:id])
+    require_game_owner!(@round.game)
   end
 
   # Only allow a list of trusted parameters through.

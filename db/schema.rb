@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_11_194041) do
-
+ActiveRecord::Schema[7.1].define(version: 2026_06_15_214633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -22,8 +21,10 @@ ActiveRecord::Schema.define(version: 2021_05_11_194041) do
     t.integer "number_of_teams", default: 2
     t.integer "current_round_number", default: 0
     t.integer "status", default: 0
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id"
+    t.index ["user_id"], name: "index_games_on_user_id"
   end
 
   create_table "questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -31,8 +32,8 @@ ActiveRecord::Schema.define(version: 2021_05_11_194041) do
     t.integer "number", null: false
     t.text "question"
     t.text "answer"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["round_id"], name: "index_questions_on_round_id"
   end
 
@@ -40,8 +41,8 @@ ActiveRecord::Schema.define(version: 2021_05_11_194041) do
     t.uuid "game_id", null: false
     t.integer "number", null: false
     t.integer "status", default: 0
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "name"
     t.string "title"
     t.index ["game_id"], name: "index_rounds_on_game_id"
@@ -53,8 +54,8 @@ ActiveRecord::Schema.define(version: 2021_05_11_194041) do
     t.text "answer"
     t.integer "status", default: 0
     t.float "points"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["question_id", "team_id"], name: "index_team_answers_on_question_id_and_team_id", unique: true
     t.index ["question_id"], name: "index_team_answers_on_question_id"
     t.index ["team_id"], name: "index_team_answers_on_team_id"
@@ -64,8 +65,8 @@ ActiveRecord::Schema.define(version: 2021_05_11_194041) do
     t.uuid "game_id", null: false
     t.integer "number", null: false
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.float "total_points"
     t.index ["game_id", "name"], name: "index_teams_on_game_id_and_name", unique: true
     t.index ["game_id"], name: "index_teams_on_game_id"
@@ -89,14 +90,15 @@ ActiveRecord::Schema.define(version: 2021_05_11_194041) do
     t.integer "failed_attempts", default: 0, null: false
     t.string "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 
+  add_foreign_key "games", "users"
   add_foreign_key "questions", "rounds"
   add_foreign_key "rounds", "games"
   add_foreign_key "team_answers", "questions"

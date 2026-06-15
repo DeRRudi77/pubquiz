@@ -12,6 +12,7 @@ class TeamAnswer < ApplicationRecord
   private
 
   def update_team_total_points
+    return if round.scored?
     round.scored!
     team.update_total_points!
   end

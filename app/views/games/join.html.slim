@@ -4,5 +4,3 @@
       .content
         h1.title = "Welcome to the game: #{@game.name}"
         == render 'components/form/notice', notice: notice
-        = "Session: #{session.id}"
-        = Redis.current.get "test"
