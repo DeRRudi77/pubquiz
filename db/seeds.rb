@@ -6,7 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-game = Game.create(name: "First pubquiz")
-Round.create(game: game)
-Team.create(game: game)
-Team.create(game: game)
+# Default login (idempotent).
+User.find_or_create_by!(email: "admin@example.com") do |u|
+  u.password = "password"
+  u.password_confirmation = "password"
+end
+
+# Game#update_rounds_and_teams (after_save) auto-creates the default
+# number_of_rounds rounds and number_of_teams teams.
+Game.create(name: "First pubquiz")
