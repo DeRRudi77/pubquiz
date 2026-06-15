@@ -12,7 +12,7 @@ class Round < ApplicationRecord
   accepts_nested_attributes_for :questions
 
   def name
-    "Round #{number}: #{title}"
+    title.present? ? "Round #{number}: #{title}" : "Round #{number}"
   end
 
   def next_round

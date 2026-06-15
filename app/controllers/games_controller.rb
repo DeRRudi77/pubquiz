@@ -1,10 +1,11 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :update, :destroy, :edit, :start, :next_round, :show_results, :process_results, :join]
+  before_action :set_game, only: [:show, :update, :destroy, :edit, :start, :next_round, :show_results, :process_results]
+  before_action :set_joinable_game, only: [:join]
   before_action :authenticate_user!, except: [:join]
 
   # GET /games
   def index
-    @games = Game.all.order(created_at: :desc)
+    @games = current_user.games.order(created_at: :desc)
   end
 
   # GET /games/1
@@ -24,7 +25,7 @@ class GamesController < ApplicationController
 
   # POST /games
   def create
-    @game = Game.new(game_params)
+    @game = current_user.games.new(game_params)
 
     respond_to do |format|
       if @game.save
@@ -115,6 +116,11 @@ class GamesController < ApplicationController
   private
 
   def set_game
+    @game = current_user.games.find(params[:id])
+  end
+
+  # `join` is the only unauthenticated entry point, so it can't scope by owner.
+  def set_joinable_game
     @game = Game.find(params[:id])
   end
 

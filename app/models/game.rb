@@ -1,6 +1,8 @@
 class Game < ApplicationRecord
   include RelationshipUpdatable
 
+  belongs_to :user, optional: true
+
   has_many :rounds, -> { order(:number) }, dependent: :destroy
   has_many :teams, -> { order(:number) }, dependent: :destroy
 
@@ -36,7 +38,8 @@ class Game < ApplicationRecord
 
   def next_round!
     started! unless started?
-    current_round.finished! if current_round.present?
+    current_round&.finished!
+    return unless next_round.present?
     next_round.started!
     update!(current_round_number: (current_round_number + 1))
     broadcast_reload_teams
@@ -49,7 +52,7 @@ class Game < ApplicationRecord
   end
 
   def show_results!
-    finished! unless finished!
+    finished! unless finished?
     teams.each(&:update_total_points!)
     broadcast_reload_teams
   end
@@ -61,6 +64,7 @@ class Game < ApplicationRecord
   end
 
   def progress
+    return 0 if number_of_rounds.to_i.zero?
     100 / number_of_rounds
   end
 
@@ -87,11 +91,20 @@ end
 # Table name: games
 #
 #  id                   :uuid             not null, primary key
+#  current_round_number :integer          default(0)
 #  name                 :string
 #  number_of_rounds     :integer          default(3)
 #  number_of_teams      :integer          default(2)
-#  current_round_number :integer          default(0)
 #  status               :integer          default("pending_start")
 #  created_at           :datetime         not null
 #  updated_at           :datetime         not null
+#  user_id              :uuid
+#
+# Indexes
+#
+#  index_games_on_user_id  (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
 #

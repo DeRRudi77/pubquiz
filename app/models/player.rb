@@ -11,16 +11,16 @@ class Player
         name: name,
         game_id: game_id,
         team_id: team_id,
-        team_captian: team_captain
+        team_captain: team_captain
       },
-      expires_in: 24.hours,
-      )
+      expires_in: 24.hours
+    )
   end
 
   class << self
     def find(session_id, game_id)
       cache = Rails.cache.read(cache_key(session_id, game_id))
-      new(session_id: session_id,name: cache[:name], game_id: cache[:game_id], team_id: cache[:team_id], )
+      new(session_id: session_id, name: cache[:name], game_id: cache[:game_id], team_id: cache[:team_id], team_captain: cache[:team_captain])
     end
 
     def cache_key(session_id, game_id)

@@ -4,7 +4,7 @@ class QuestionsController < ApplicationController
 
   # GET /questions
   def index
-    @questions = Question.all
+    @questions = Question.joins(round: :game).where(games: {user_id: current_user.id})
   end
 
   # GET /questions/1
@@ -57,6 +57,7 @@ class QuestionsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_question
     @question = Question.find(params[:id])
+    require_game_owner!(@question.round.game)
   end
 
   # Only allow a list of trusted parameters through.
