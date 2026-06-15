@@ -1,7 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  question: MyText
+  round: one
+  number: 1
+  question: What is 2 + 2?
+  answer: "4"
 
 two:
-  question: MyText
+  round: two
+  number: 1
+  question: Capital of France?
+  answer: Paris

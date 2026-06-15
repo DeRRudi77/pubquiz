@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  round: one
+  question: one
   team: one
-  answer: MyText
+  answer: "4"
 
 two:
-  round: two
+  question: two
   team: two
-  answer: MyText
+  answer: Paris

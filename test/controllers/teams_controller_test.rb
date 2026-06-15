@@ -2,47 +2,37 @@ require "test_helper"
 
 class TeamsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @team = teams(:one)
+    @owner = users(:owner)
+    @team = teams(:one)         # game owned by :owner
+    @other_team = teams(:two)   # game owned by :other
+    sign_in @owner
   end
 
-  test "should get index" do
-    get teams_url
-    assert_response :success
-  end
-
-  test "should get new" do
-    get new_team_url
-    assert_response :success
-  end
-
-  test "should create team" do
-    assert_difference("Team.count") do
-      post teams_url, params: {team: {game_id: @team.game_id, name: @team.name, uuid: @team.uuid}}
-    end
-
-    assert_redirected_to team_url(Team.last)
-  end
-
-  test "should show team" do
+  test "should show a team in an owned game" do
     get team_url(@team)
     assert_response :success
   end
 
-  test "should get edit" do
-    get edit_team_url(@team)
+  test "should update a team in an owned game" do
+    patch team_url(@team), params: {team: {name: "Renamed"}}, as: :turbo_stream
     assert_response :success
+    assert_equal "Renamed", @team.reload.name
   end
 
-  test "should update team" do
-    patch team_url(@team), params: {team: {game_id: @team.game_id, name: @team.name, uuid: @team.uuid}}
-    assert_redirected_to team_url(@team)
+  test "cannot view a team in a game owned by another user" do
+    get team_url(@other_team)
+    assert_redirected_to root_path
   end
 
-  test "should destroy team" do
-    assert_difference("Team.count", -1) do
-      delete team_url(@team)
-    end
+  test "cannot update a team in a game owned by another user" do
+    patch team_url(@other_team), params: {team: {name: "Hijacked"}}, as: :turbo_stream
+    assert_response :not_found
+    assert_not_equal "Hijacked", @other_team.reload.name
+  end
 
-    assert_redirected_to teams_url
+  test "requires authentication" do
+    sign_out @owner
+    get team_url(@team)
+    assert_redirected_to new_user_session_path
   end
 end
