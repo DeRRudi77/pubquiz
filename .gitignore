@@ -42,3 +42,6 @@ yarn-debug.log*
 .yarn-integrity
 
 /.idea
+
+# Personal (per-developer) Claude Code settings. Shared settings live in .claude/settings.json.
+/.claude/settings.local.json

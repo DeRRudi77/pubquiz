@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bundle install *)",
+      "Bash(bundle exec *)",
+      "Bash(bin/rails test*)",
+      "Bash(bin/rails db:*)",
+      "Bash(npm run build*)"
+    ]
+  }
+}
