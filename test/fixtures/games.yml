@@ -1,11 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+# `one` is owned by users(:owner); `two` by users(:other) — used to assert
+# that non-owners cannot reach a game or its children.
+one:
+  name: Game One
+  user: owner
+  number_of_rounds: 2
+  number_of_teams: 2
+  current_round_number: 0
+
+two:
+  name: Game Two
+  user: other
+  number_of_rounds: 2
+  number_of_teams: 2
+  current_round_number: 0

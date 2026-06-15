@@ -1,6 +1,6 @@
 class TeamAnswersController < ApplicationController
-  before_action :set_answer, only: [:update]
   before_action :authenticate_user!
+  before_action :set_answer, only: [:update]
 
   # PATCH/PUT /answers/1
   def update

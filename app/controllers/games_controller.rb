@@ -1,7 +1,7 @@
 class GamesController < ApplicationController
+  before_action :authenticate_user!, except: [:join]
   before_action :set_game, only: [:show, :update, :destroy, :edit, :start, :next_round, :show_results, :process_results]
   before_action :set_joinable_game, only: [:join]
-  before_action :authenticate_user!, except: [:join]
 
   # GET /games
   def index
@@ -116,7 +116,8 @@ class GamesController < ApplicationController
   private
 
   def set_game
-    @game = current_user.games.find(params[:id])
+    @game = Game.find(params[:id])
+    require_game_owner!(@game)
   end
 
   # `join` is the only unauthenticated entry point, so it can't scope by owner.

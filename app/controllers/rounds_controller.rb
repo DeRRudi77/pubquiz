@@ -1,6 +1,6 @@
 class RoundsController < ApplicationController
-  before_action :set_round, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
+  before_action :set_round, only: [:show, :edit, :update, :destroy]
 
   # GET /rounds/1/edit
   def edit
@@ -11,7 +11,7 @@ class RoundsController < ApplicationController
     respond_to do |format|
       if @round.update(round_params)
         if params[:commit] == "Add question"
-          @round.questions.create! number: @round.questions.last.number + 1
+          @round.questions.create! number: (@round.questions.maximum(:number) || 0) + 1
 
           format.turbo_stream { render turbo_stream: turbo_stream.replace(@round, partial: "rounds/form", locals: {round: @round.reload}) }
         elsif params[:commit] == "Remove question"
