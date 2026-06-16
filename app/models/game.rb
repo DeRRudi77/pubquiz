@@ -21,21 +21,6 @@ class Game < ApplicationRecord
 
   broadcasts
 
-  def start!
-    started!
-    rounds.first.started!
-    update!(current_round_number: 1)
-    # make sure all answer objects are ready
-    rounds.each do |round|
-      round.questions.each do |question|
-        teams.each do |team|
-          question.team_answers.for_team(team)
-        end
-      end
-    end
-    broadcast_reload_teams
-  end
-
   def next_round!
     started! unless started?
     current_round&.finished!
@@ -74,11 +59,12 @@ class Game < ApplicationRecord
     end
   end
 
-  private
-
+  # Public so interactions (e.g. Games::StartGame) can trigger a team reload.
   def broadcast_reload_teams
     teams.reload.each { |team| team.reload.broadcast_replace_to team }
   end
+
+  private
 
   def update_rounds_and_teams
     update_relationship_to_amount(rounds, number_of_rounds)
