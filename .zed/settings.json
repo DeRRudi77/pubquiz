@@ -1,0 +1,16 @@
+{
+  "languages": {
+    "Ruby": {
+      "language_servers": ["ruby-lsp", "!rubocop", "!solargraph"],
+      "formatter": "language_server"
+    }
+  },
+  "lsp": {
+    "ruby-lsp": {
+      "initialization_options": {
+        "formatter": "standard",
+        "linters": ["standard"]
+      }
+    }
+  }
+}

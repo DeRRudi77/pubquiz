@@ -29,11 +29,19 @@ bin/setup            # install deps + prepare DB
 bin/dev              # run web + JS watch (Procfile.dev)
 bin/rails test       # run Minitest suite (append a path to scope)
 bin/rails test:system # system tests (Capybara + Selenium)
-bundle exec standard # lint
-bundle exec standard --fix # autofix
+bundle exec standardrb # lint
+bundle exec standardrb --fix # autofix
 npm run build        # one-off JS build (bin/dev runs --watch)
 docker-compose up    # Postgres + Redis if not running locally
+bundle exec lefthook install # install git hooks (run once; bin/setup does it)
 ```
+
+## Git hooks
+
+- **lefthook** runs a **pre-commit** hook that lints staged `*.rb` files with StandardRB
+  (`bundle exec standardrb`). Config in `lefthook.yml`. Offenses block the commit.
+- Installed automatically by `bin/setup`; existing clones run `bundle exec lefthook install` once.
+- Bypass in a pinch with `git commit --no-verify`.
 
 ## Architecture & conventions
 
