@@ -13,7 +13,7 @@ module RoundsHelper
   end
 
   def round_to_show(game)
-    game.rounds.where(status: [:finished]).first || game.rounds.scored.last
+    game.current_round || game.rounds.where(status: [:finished]).first || game.rounds.scored.last
   end
 
   def round_param
