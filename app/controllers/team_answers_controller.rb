@@ -5,8 +5,18 @@ class TeamAnswersController < ApplicationController
   # PATCH/PUT /answers/1
   def update
     @team_answer.update(answer_params)
+    team = @team_answer.team
+    round = @team_answer.round
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.replace(@team_answer, partial: "team_answers/form", locals: {answer: @team_answer}) }
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.replace(@team_answer, partial: "team_answers/form", locals: {answer: @team_answer}),
+          turbo_stream.update(
+            "points_#{helpers.dom_id(round)}_#{helpers.dom_id(team)}",
+            team.answers_for_round(round).sum(:points)
+          )
+        ]
+      end
     end
   end
 

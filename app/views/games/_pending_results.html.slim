@@ -4,8 +4,7 @@
   == render 'games/round_tabs', game: game
 
   .content
-    - game.teams.each do |team|
-      == render 'games/team_answers', team: team, round: current_viewing_round(game)
+    == render 'games/round_scoring', game: game, round: current_viewing_round(game)
 
   footer.card-footer
     .card-footer-item

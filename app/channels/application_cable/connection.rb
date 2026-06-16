@@ -3,15 +3,11 @@ module ApplicationCable
     identified_by :current_user
 
     def connect
-      self.current_user = find_verified_user
-    end
-
-    private
-
-    # All pages that open a cable connection (games#show, teams#show) sit behind
-    # `authenticate_user!`, so an unauthenticated socket has no legitimate use.
-    def find_verified_user
-      env["warden"]&.user || reject_unauthorized_connection
+      # Team pages (teams#show) are public, so the socket may be anonymous.
+      # current_user is identified when a host is signed in, but a nil user is
+      # allowed: Turbo only lets a client subscribe to the server-signed stream
+      # names rendered into its own page, so public sockets can't snoop others.
+      self.current_user = env["warden"]&.user
     end
   end
 end
