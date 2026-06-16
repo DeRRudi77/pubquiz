@@ -3,6 +3,7 @@
   table.table.is-striped.is-hoverable
     thead
       tr
+        th Number
         th Question
         th Correct Answer
         th Given Answer
@@ -11,13 +12,15 @@
     tbody
       - team.answers_for_round(round).each do |answer|
         tr
-          td Question #{ answer.question.number }
+          td = answer.question.number
+          td = answer.question.question
           td = answer.question.answer
           td = answer.answer
           td
             == render 'team_answers/form', answer: answer
       tr
         td Total points
+        td
         td
         td
         td
