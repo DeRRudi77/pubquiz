@@ -6,9 +6,10 @@ class ApplicationController < ActionController::Base
   def require_game_owner!(game)
     return if game && user_signed_in? && game.user_id == current_user.id
 
-    respond_to do |format|
-      format.html { redirect_to root_path, alert: "Not authorized." }
-      format.any { head :not_found }
+    if request.get?
+      redirect_to root_path, alert: "Not authorized."
+    else
+      head :not_found
     end
   end
 end

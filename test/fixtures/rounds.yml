@@ -2,12 +2,10 @@
 
 one:
   game: one
-  number_of_questions: 1
-  started: false
-  ended: false
+  number: 1
+  title: First round
 
 two:
   game: two
-  number_of_questions: 1
-  started: false
-  ended: false
+  number: 1
+  title: First round

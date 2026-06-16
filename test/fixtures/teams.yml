@@ -2,10 +2,10 @@
 
 one:
   game: one
-  name: MyString
-  uuid: MyString
+  name: Team A
+  number: 1
 
 two:
   game: two
-  name: MyString
-  uuid: MyString
+  name: Team B
+  number: 1
