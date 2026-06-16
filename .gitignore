@@ -45,3 +45,6 @@ yarn-debug.log*
 
 # Personal (per-developer) Claude Code settings. Shared settings live in .claude/settings.json.
 /.claude/settings.local.json
+
+# Playwright MCP browser-check artifacts
+/.playwright-mcp/
