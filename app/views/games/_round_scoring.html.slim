@@ -1,0 +1,45 @@
+- teams = game.teams.to_a
+.block
+  - round.questions.each do |question|
+    .box.mb-4
+      .level.is-mobile.mb-2
+        .level-left
+          .level-item
+            span.tag.is-info.is-medium.mr-2 = question.number
+          .level-item
+            strong = question.question
+        .level-right
+          .level-item.has-text-success
+            span.icon.is-small.mr-1
+              i.fas.fa-check aria-hidden="true"
+            = question.answer
+
+      table.table.is-fullwidth.is-narrow.is-hoverable
+        thead
+          tr
+            th width="20%" Team
+            th Given Answer
+            th.has-text-right width="220" Score
+        tbody
+          - teams.each do |team|
+            - answer = question.team_answers.for_team(team)
+            tr
+              td = team.name
+              td = answer.answer
+              td.has-text-right
+                == render 'team_answers/form', answer: answer
+
+  .box
+    table.table.is-fullwidth.is-narrow
+      thead
+        tr
+          th Team
+          th.has-text-right Total points
+      tbody
+        - teams.each do |team|
+          tr
+            td
+              strong = team.name
+            td.has-text-right
+              = turbo_frame_tag "points_#{dom_id(round)}_#{dom_id(team)}"
+                = team.answers_for_round(round).sum(:points)
