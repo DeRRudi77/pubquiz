@@ -26,6 +26,7 @@ group :development, :test do
   # Rails 7.1's test runner is incompatible with minitest 6; pin to 5.x.
   gem "minitest", "~> 5.25"
   gem "standard"
+  gem "lefthook", require: false
 end
 
 group :development do
