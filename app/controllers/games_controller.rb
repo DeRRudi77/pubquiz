@@ -62,7 +62,7 @@ class GamesController < ApplicationController
   end
 
   def start
-    @game.start!
+    Games::StartGame.run!(game: @game)
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
