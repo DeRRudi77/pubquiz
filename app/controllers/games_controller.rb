@@ -75,7 +75,7 @@ class GamesController < ApplicationController
   end
 
   def next_round
-    @game.next_round!
+    Games::AdvanceRound.run!(game: @game)
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
@@ -88,7 +88,7 @@ class GamesController < ApplicationController
   end
 
   def process_results
-    @game.process_results!
+    Games::ProcessResults.run!(game: @game)
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
@@ -101,7 +101,7 @@ class GamesController < ApplicationController
   end
 
   def show_results
-    @game.show_results!
+    Games::ShowResults.run!(game: @game)
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
