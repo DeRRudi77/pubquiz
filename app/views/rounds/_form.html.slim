@@ -22,7 +22,7 @@
         .field
           .control.is-pulled-right
             - unless round.questions.count == 0
-              = button_to 'Remove question', question_path(round.questions.last), method: :delete, class: 'button is-danger'
+              = link_to 'Remove question', question_path(round.questions.last), data: { turbo_method: :delete }, class: 'button is-danger'
             - unless round.questions.count == 10
-              = button_to 'Add question', round_questions_path(round), method: :post, class: 'button is-primary'
+              = link_to 'Add question', round_questions_path(round), data: { turbo_method: :post }, class: 'button is-primary'
       == render 'components/form/button', form: form, position: 'right'

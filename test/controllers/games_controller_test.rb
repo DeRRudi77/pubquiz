@@ -8,6 +8,16 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     sign_in @owner
   end
 
+  # Regression: the wizard's add/remove-question controls must be turbo-method
+  # links, never button_to (a nested <form> breaks Turbo and leaks raw HTML).
+  test "wizard step 2 renders add/remove question as turbo-method links" do
+    get edit_game_url(@game, step: 2)
+    assert_response :success
+    assert_select "a[data-turbo-method='post']", text: "Add question"
+    assert_select "a[data-turbo-method='delete']", text: "Remove question"
+    assert_select "input[value='Add question']", false
+  end
+
   test "index lists only the current user's games" do
     get games_url
     assert_response :success
