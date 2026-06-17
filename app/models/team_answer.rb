@@ -6,16 +6,6 @@ class TeamAnswer < ApplicationRecord
   has_one :game, through: :round
 
   enum :status, %i[pending correct incorrect], default: "pending"
-
-  after_update :update_team_total_points, if: proc { |answer| answer.round.all_answers_scored? }
-
-  private
-
-  def update_team_total_points
-    return if round.scored?
-    round.scored!
-    team.update_total_points!
-  end
 end
 
 # == Schema Information
