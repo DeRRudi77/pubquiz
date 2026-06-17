@@ -12,7 +12,7 @@ class Game < ApplicationRecord
   has_many :visible_rounds,
     -> { where(status: [statuses[:started], statuses[:finished], statuses[:scored]]).order(:number) },
     class_name: "Round"
-  enum status: %i[pending_start started pending_results finished], _default: "pending_start"
+  enum :status, %i[pending_start started pending_results finished], default: "pending_start"
 
   validates :number_of_rounds, presence: true
   validates :name, presence: true
