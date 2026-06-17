@@ -21,27 +21,6 @@ class Game < ApplicationRecord
 
   broadcasts
 
-  def next_round!
-    started! unless started?
-    current_round&.finished!
-    return unless next_round.present?
-    next_round.started!
-    update!(current_round_number: (current_round_number + 1))
-    broadcast_reload_teams
-  end
-
-  def process_results!
-    current_round.finished!
-    pending_results! unless pending_results?
-    broadcast_reload_teams
-  end
-
-  def show_results!
-    finished! unless finished?
-    teams.each(&:update_total_points!)
-    broadcast_reload_teams
-  end
-
   def reset!
     update(current_round_number: 0, status: :pending_start)
     rounds.update_all(status: :pending_start)

@@ -12,14 +12,6 @@ class GameTest < ActiveSupport::TestCase
     game = @owner.games.create!(name: "Zero", number_of_rounds: 0, number_of_teams: 0)
     assert_equal 0, game.progress
   end
-
-  test "next_round! does not raise past the final round" do
-    game = @owner.games.create!(name: "Last", number_of_rounds: 1, number_of_teams: 1)
-    game.update_columns(status: Game.statuses[:started], current_round_number: 1)
-
-    assert_nothing_raised { game.next_round! }
-    assert_equal 1, game.current_round_number, "should not advance past the last round"
-  end
 end
 
 # == Schema Information
