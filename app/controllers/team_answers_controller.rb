@@ -4,7 +4,7 @@ class TeamAnswersController < ApplicationController
 
   # PATCH/PUT /answers/1
   def update
-    @team_answer.update(answer_params)
+    Games::ScoreAnswer.run!(team_answer: @team_answer, points: answer_params[:points])
     team = @team_answer.team
     round = @team_answer.round
     respond_to do |format|
