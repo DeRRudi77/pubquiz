@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_question, only: %i[show edit update destroy]
+  before_action :set_round, only: %i[create]
 
   # GET /questions
   def index
@@ -20,17 +21,10 @@ class QuestionsController < ApplicationController
   def edit
   end
 
-  # POST /questions
+  # POST /rounds/:round_id/questions
   def create
-    @question = Question.new(question_params)
-
-    respond_to do |format|
-      if @question.save
-        format.html { redirect_to @question, notice: "Question was successfully created." }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
-    end
+    Rounds::AddQuestion.run!(round: @round)
+    render turbo_stream: turbo_stream.replace(@round, partial: "rounds/form", locals: {round: @round.reload})
   end
 
   # PATCH/PUT /questions/1
@@ -46,10 +40,9 @@ class QuestionsController < ApplicationController
 
   # DELETE /questions/1
   def destroy
+    round = @question.round
     @question.destroy
-    respond_to do |format|
-      format.html { redirect_to questions_url, notice: "Question was successfully destroyed." }
-    end
+    render turbo_stream: turbo_stream.replace(round, partial: "rounds/form", locals: {round: round.reload})
   end
 
   private
@@ -58,6 +51,11 @@ class QuestionsController < ApplicationController
   def set_question
     @question = Question.find(params[:id])
     require_game_owner!(@question.round.game)
+  end
+
+  def set_round
+    @round = Round.find(params[:round_id])
+    require_game_owner!(@round.game)
   end
 
   # Only allow a list of trusted parameters through.

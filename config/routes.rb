@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "games#index"
-  resources :questions
-  resources :rounds, only: [:edit, :update]
+  resources :questions, except: [:create]
+  resources :rounds, only: [:edit, :update] do
+    resources :questions, only: [:create]
+  end
   resources :games do
     member do
       patch "start"
