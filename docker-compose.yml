@@ -1,5 +1,29 @@
-version: '3.8'
 services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: pubquiz_web
+    command: bin/docker-entrypoint-dev
+    environment:
+      PGHOST: database
+      PGUSER: pubquiz
+      PGPASSWORD: pubquiz
+      REDIS_URL: redis://redis:6379/1
+      RAILS_ENV: development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+      - node_modules:/app/node_modules
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
   database:
     image: postgres:latest
     container_name: pubquiz_database
@@ -8,9 +32,18 @@ services:
       POSTGRES_USER: pubquiz
     ports:
       - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pubquiz"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     container_name: pubquiz_redis
     image: redis:latest
     ports:
       - 6379:6379
+
+volumes:
+  bundle_cache:
+  node_modules:

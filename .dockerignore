@@ -1,0 +1,10 @@
+.git
+.gitignore
+node_modules
+tmp
+log
+storage
+app/assets/builds
+.bundle
+test
+*.log
