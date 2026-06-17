@@ -5,7 +5,7 @@ class Round < ApplicationRecord
   has_many :questions, -> { order(:number) }, dependent: :destroy
   has_many :team_answers, through: :questions
 
-  enum status: %i[pending_start started finished scored], _default: :pending_start
+  enum :status, %i[pending_start started finished scored], default: :pending_start
 
   after_create :create_questions
 

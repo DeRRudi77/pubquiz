@@ -5,7 +5,7 @@ class TeamAnswer < ApplicationRecord
   has_one :round, through: :question
   has_one :game, through: :round
 
-  enum status: %i[pending correct incorrect], _default: "pending"
+  enum :status, %i[pending correct incorrect], default: "pending"
 
   after_update :update_team_total_points, if: proc { |answer| answer.round.all_answers_scored? }
 

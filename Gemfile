@@ -10,7 +10,7 @@ gem "devise", "~> 4.9"
 gem "jsbundling-rails", "~> 1.3"
 gem "pg", "~> 1.5"
 gem "puma", "~> 6.0"
-gem "rails", "~> 7.2.0"
+gem "rails", "~> 8.0.0"
 gem "redis", "~> 5.0"
 gem "sassc-rails", "~> 2.1"
 gem "slim", "~> 4.1"
@@ -31,7 +31,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "annotate"
+  gem "annotaterb"
   gem "ruby-lsp", require: false
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem "web-console", ">= 4.1.0"
