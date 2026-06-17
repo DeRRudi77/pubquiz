@@ -12,7 +12,7 @@ Hierarchy: `Game → Round → Question` and `Game → Team → TeamAnswer`.
 
 ## Stack
 
-- **Ruby** 3.4.9 (`.ruby-version`), **Rails** 7.1.6
+- **Ruby** 3.4.9 (`.ruby-version`), **Rails** 8.1.3
 - **PostgreSQL** — UUID primary keys throughout (pgcrypto)
 - **Redis** — caching / sessions / ActionCable
 - **Puma** web server
@@ -20,6 +20,7 @@ Hierarchy: `Game → Round → Question` and `Game → Team → TeamAnswer`.
 - **esbuild** bundles JS (no Webpacker); **sassc-rails** for CSS
 - **Slim** view templates
 - **Devise** authentication
+- **active_interaction** — game-flow logic lives in service objects (`app/interactions/`)
 - **StandardRB** for linting/formatting
 
 ## Commands
@@ -49,12 +50,17 @@ bundle exec lefthook install # install git hooks (run once; bin/setup does it)
   - `Game`: `pending_start`, `started`, `pending_results`, `finished`
   - `Round`: `pending_start`, `started`, `finished`, `scored`
   - `TeamAnswer`: `pending`, `correct`, `incorrect`
-- **Game flow actions:** `start!`, `next_round!`, `process_results!`, `show_results!`
-  (custom member routes on `games`).
-- **Real-time:** `Game`, `Round`, `Team` include `Turbo::Broadcastable` and broadcast over
-  ActionCable; controllers respond with Turbo Streams (partial replacement, not full reloads).
+- **Game flow** is driven by `ActiveInteraction` service objects in `app/interactions/games/`
+  — `StartGame`, `AdvanceRound`, `ProcessResults`, `ScoreAnswer`, `ShowResults` — invoked from
+  controllers via custom member routes `start`, `next_round`, `process_results`, `show_results`
+  on `games`. The flow logic is NOT bang methods on the models.
+- **Real-time:** `Game` broadcasts via the `broadcasts` macro and `Team` includes
+  `Turbo::Broadcastable`; both push over ActionCable. Controllers respond with Turbo Streams
+  (partial replacement, not full reloads).
 - **`RelationshipUpdatable` concern** (`app/models/concerns/`) — auto creates/destroys child
   records to match a count (e.g. N questions per round, N teams per game).
+- **`Player`** (`app/models/player.rb`) is a plain Ruby object, NOT ActiveRecord — it represents
+  an anonymous player session stored in `Rails.cache` (Redis) with a 24h expiry.
 - **Auth:** Devise. `authenticate_user!` is required everywhere except `games#join` (GET).
 - **Views are Slim** (`app/views/**/*.slim`). Stimulus controllers live in
   `app/javascript/controllers/`, ActionCable channels in `app/javascript/channels/`.
@@ -74,7 +80,7 @@ bundle exec lefthook install # install git hooks (run once; bin/setup does it)
 ## Testing
 
 - **Minitest** with fixtures; tests run in parallel.
-- Layout: `test/models/`, `test/controllers/`, `test/system/`, `test/channels/`.
+- Layout: `test/models/`, `test/controllers/`, `test/interactions/`, `test/system/`, `test/channels/`.
 - System tests use Capybara + Selenium.
 
 ## Gotchas
