@@ -17,7 +17,7 @@
           == render 'components/form/text_field', form: question_form, field: :answer
 
     / Add/remove controls sit with the question list they change.
-    .field.is-grouped.is-grouped-right.mb-5
+    .field.is-grouped.is-grouped-right.mt-5.mb-5
       - unless round.questions.count == 0
         p.control
           = link_to 'Remove question', question_path(round.questions.last), data: { turbo_method: :delete }, class: 'button is-danger is-light'
