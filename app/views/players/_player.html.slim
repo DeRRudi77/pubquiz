@@ -1,0 +1,9 @@
+= turbo_frame_tag 'player'
+  = render 'components/form/notice', notice: notice
+  p You are currently playing as: #{@player.name}
+  = form_with url: game_player_path(@game), scope: :player, method: :patch, data: { turbo_frame: 'player' } do |f|
+      .field.has-addons
+        .control
+          = f.text_field :name, class: 'input'
+        .control
+          = f.submit class: 'button is-primary', value: 'Save'

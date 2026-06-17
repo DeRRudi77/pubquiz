@@ -1,6 +1,8 @@
+= turbo_stream_from @player.stream_name
+
 .column
   .card
     .card-content
       .content
         h1.title = "Welcome to the game: #{@game.name}"
-        == render 'components/form/notice', notice: notice
+        == render 'players/player', player: @player, game: @game, notice: notice

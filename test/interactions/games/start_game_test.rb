@@ -5,6 +5,7 @@ module Games
     setup do
       @owner = users(:owner)
       @game = @owner.games.create!(name: "Startable", number_of_rounds: 2, number_of_teams: 2)
+      @game.team_setup!
     end
 
     test "transitions the game and its first round to started" do

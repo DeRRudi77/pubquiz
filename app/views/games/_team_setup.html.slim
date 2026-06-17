@@ -2,21 +2,8 @@
   .content
     h1.title = game.name
     == render 'components/form/notice', notice: notice
-    table.table.is-striped.is-hoverable
-      thead
-        tr
-          th Round number
-          th Round name
-          th Number of questions
 
-      tbody
-      - game.rounds.each do |round|
-        tr
-          td = round.number
-          td = round.name
-          td = round.questions.count
-
-    .notification.is-warning = t(:team_notification)
+    p Teams are setting up. Captains can name their team before the game starts.
 
     table.table.is-striped.is-hoverable
       thead
@@ -26,7 +13,7 @@
           th Link
 
       tbody
-        - game.teams.each_with_index do |team|
+        - game.teams.each do |team|
           tr
             td = team.id
             td = team.display_name
@@ -37,16 +24,18 @@
         tr
           th Name
           th Team
+          th Captain
 
       tbody
-        - game.players.each_with_index do |player|
+        - game.players.each do |player|
           tr
             td = player.name || "No name"
             td = player.team&.display_name || 'No team'
+            td = player.team_captain ? 'Yes' : ''
 
   footer.card-footer
     = link_to 'Edit', edit_game_path(game), class: "card-footer-item", data: { 'turbo-frame': '_top' }
     .card-footer-item
     .card-footer-item
-      = form_with(model: game, url: setup_teams_game_path(game)) do |form|
-        = form.submit 'Set up teams', class: 'button is-primary is-inverted'
+      = form_with(model: game, url: start_game_path(game)) do |form|
+        = form.submit 'Start the game!', class: 'button is-primary is-inverted'

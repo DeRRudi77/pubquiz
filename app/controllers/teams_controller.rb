@@ -3,15 +3,18 @@ class TeamsController < ApplicationController
 
   # GET /teams/1
   def show
+    @captain = captain?
   end
 
   # PATCH/PUT /teams/1
   def update
+    return head :forbidden if team_params.key?(:name) && !captain?
+
     respond_to do |format|
       if @team.update(team_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team, notice: update_notice}) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team, captain: captain?, notice: update_notice}) }
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team}) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team, captain: captain?}) }
       end
     end
   end
@@ -21,6 +24,12 @@ class TeamsController < ApplicationController
   def update_notice
     return "Answers saved" if params[:commit] == "Save answers"
     "Team name saved"
+  end
+
+  # The current session's player is this team's captain.
+  def captain?
+    player = Player.find_or_create_by!(session_id: session.id, game_id: @team.game_id)
+    player.team_captain && player.team_id == @team.id
   end
 
   # Use callbacks to share common setup or constraints between actions.
