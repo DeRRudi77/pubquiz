@@ -16,13 +16,16 @@
           == render 'components/form/text_field', form: question_form, field: :question
           == render 'components/form/text_field', form: question_form, field: :answer
 
-    .field.is-horizontal
-      .field-label <!-- Left empty for spacing -->
-      .field-body
-        .field
-          .control.is-pulled-right
-            - unless round.questions.count == 0
-              = link_to 'Remove question', question_path(round.questions.last), data: { turbo_method: :delete }, class: 'button is-danger'
-            - unless round.questions.count == 10
-              = link_to 'Add question', round_questions_path(round), data: { turbo_method: :post }, class: 'button is-primary'
-      == render 'components/form/button', form: form, position: 'right'
+    / Add/remove controls sit with the question list they change.
+    .field.is-grouped.is-grouped-right.mb-5
+      - unless round.questions.count == 0
+        p.control
+          = link_to 'Remove question', question_path(round.questions.last), data: { turbo_method: :delete }, class: 'button is-danger is-light'
+      - unless round.questions.count == 10
+        p.control
+          = link_to 'Add question', round_questions_path(round), data: { turbo_method: :post }, class: 'button is-primary'
+
+    hr
+
+    / Saving the round is a separate, primary action.
+    == render 'components/form/button', form: form, position: 'right'
