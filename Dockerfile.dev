@@ -1,0 +1,32 @@
+# Development image: Rails + esbuild JS watcher.
+# Gems and node_modules are installed at first boot (see bin/docker-entrypoint-dev)
+# so the bind mount and named volumes stay authoritative across rebuilds.
+FROM ruby:3.4.9-slim
+
+# System deps: build toolchain + libpq (pg gem) + Node.js 20 (esbuild).
+RUN apt-get update -qq \
+  && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    libyaml-dev \
+    git \
+    curl \
+    ca-certificates \
+    gnupg \
+  && mkdir -p /etc/apt/keyrings \
+  && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+    | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+  && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" \
+    > /etc/apt/sources.list.d/nodesource.list \
+  && apt-get update -qq \
+  && apt-get install -y --no-install-recommends nodejs \
+  && rm -rf /var/lib/apt/lists/*
+
+# foreman runs Procfile.dev (web + js); kept outside the bundle so `bin/dev` works.
+RUN gem install foreman
+
+WORKDIR /app
+
+EXPOSE 3000
+
+CMD ["bin/docker-entrypoint-dev"]

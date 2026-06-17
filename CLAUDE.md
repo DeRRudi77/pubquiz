@@ -32,7 +32,7 @@ bin/rails test:system # system tests (Capybara + Selenium)
 bundle exec standardrb # lint
 bundle exec standardrb --fix # autofix
 npm run build        # one-off JS build (bin/dev runs --watch)
-docker-compose up    # Postgres + Redis if not running locally
+docker compose up    # full stack: web (:3000) + Postgres + Redis (key via config/master.key)
 bundle exec lefthook install # install git hooks (run once; bin/setup does it)
 ```
 
@@ -80,6 +80,7 @@ bundle exec lefthook install # install git hooks (run once; bin/setup does it)
 ## Gotchas
 
 - Needs a local **Postgres** role `pubquiz` / `pubquiz` and **Redis** running — or use
-  `docker-compose up`.
+  `docker compose up`, which now also runs Rails in a `web` container (dev image
+  `Dockerfile.dev`, boots via `bin/docker-entrypoint-dev`). No host Ruby/Node needed.
 - All tables use **UUID** primary keys; don't assume integer IDs.
 - `config/master.key` is gitignored — credentials won't decrypt without it.

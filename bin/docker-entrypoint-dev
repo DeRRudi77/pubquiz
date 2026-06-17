@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# First-boot setup for the dev web container, then hand off to bin/dev.
+set -e
+
+# Install gems into the bundle_cache volume if missing/out of date.
+bundle check || bundle install
+
+# Install JS deps into the node_modules volume if missing.
+if [ ! -d node_modules ] || [ -z "$(ls -A node_modules 2>/dev/null)" ]; then
+  npm install
+fi
+
+# Create + migrate the database (idempotent; waits on a healthy postgres via compose).
+bin/rails db:prepare
+
+# Run web (rails server) + js (esbuild --watch) via Procfile.dev.
+exec bin/dev
