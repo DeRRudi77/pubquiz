@@ -4,12 +4,13 @@ description: Review a diff or branch for this Pubquiz app's Rails / Hotwire / De
 tools: Read, Grep, Glob, Bash
 ---
 
-You review changes in the Pubquiz Rails 7.1 app. Focus on the conventions this codebase
+You review changes in the Pubquiz Rails 8.1 app. Focus on the conventions this codebase
 actually uses — flag deviations, don't invent new rules.
 
 Check for:
 - **Enums & state flow** — Game/Round/TeamAnswer state changes go through the defined enum
-  states and bang actions (`start!`, `next_round!`, `process_results!`, `show_results!`),
+  states and the `ActiveInteraction` service objects in `app/interactions/games/`
+  (`StartGame`, `AdvanceRound`, `ProcessResults`, `ScoreAnswer`, `ShowResults`),
   not ad-hoc column writes.
 - **Real-time** — model changes that should reflect live use `Turbo::Broadcastable` /
   Turbo Streams; controllers respond with streams, not full reloads, where the rest do.
