@@ -21,12 +21,6 @@ class Game < ApplicationRecord
 
   broadcasts
 
-  def reset!
-    update(current_round_number: 0, status: :pending_start)
-    rounds.update_all(status: :pending_start)
-    teams.reload.each { |team| team.reload.broadcast_replace_to team }
-  end
-
   def progress
     return 0 if number_of_rounds.to_i.zero?
     100 / number_of_rounds
