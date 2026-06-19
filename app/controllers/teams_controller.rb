@@ -8,7 +8,7 @@ class TeamsController < ApplicationController
 
   # PATCH/PUT /teams/1
   def update
-    return head :forbidden if team_params.key?(:name) && !captain?
+    return head :forbidden unless captain?
 
     respond_to do |format|
       if @team.update(team_params)
@@ -26,10 +26,12 @@ class TeamsController < ApplicationController
     "Team name saved"
   end
 
-  # The current session's player is this team's captain.
+  # The current session's player is this team's captain. Memoized so the
+  # Redis lookup runs once per request (callers: show, update guard + locals).
   def captain?
+    return @captain unless @captain.nil?
     player = Player.find_or_create_by!(session_id: session.id, game_id: @team.game_id)
-    player.team_captain && player.team_id == @team.id
+    @captain = !!(player.team_captain && player.team_id == @team.id)
   end
 
   # Use callbacks to share common setup or constraints between actions.

@@ -27,14 +27,37 @@ class TeamsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "a non-captain cannot rename the team" do
-    captain = Player.new(session_id: "s", game_id: @team.game_id, team_captain: false)
+    non_captain = Player.new(session_id: "s", game_id: @team.game_id, team_captain: false)
 
-    Player.stub(:find_or_create_by!, captain) do
+    Player.stub(:find_or_create_by!, non_captain) do
       patch team_url(@team), params: {team: {name: "Renamed"}}, as: :turbo_stream
     end
 
     assert_response :forbidden
     assert_not_equal "Renamed", @team.reload.name
+  end
+
+  test "the team captain can save answers" do
+    answer = team_answers(:one)
+
+    as_captain_of(@team) do
+      patch team_url(@team), params: {team: {team_answers_attributes: [{id: answer.id, answer: "42"}]}}, as: :turbo_stream
+    end
+
+    assert_response :success
+    assert_equal "42", answer.reload.answer
+  end
+
+  test "a non-captain cannot save answers" do
+    answer = team_answers(:one)
+    non_captain = Player.new(session_id: "s", game_id: @team.game_id, team_captain: false)
+
+    Player.stub(:find_or_create_by!, non_captain) do
+      patch team_url(@team), params: {team: {team_answers_attributes: [{id: answer.id, answer: "42"}]}}, as: :turbo_stream
+    end
+
+    assert_response :forbidden
+    assert_not_equal "42", answer.reload.answer
   end
 
   private

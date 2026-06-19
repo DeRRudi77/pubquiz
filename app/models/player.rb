@@ -77,8 +77,6 @@ class Player
         end
       end
 
-      Rails.logger.debug(keys)
-
       keys.map { |key| find_by_key(key) }
     end
 

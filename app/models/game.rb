@@ -34,7 +34,7 @@ class Game < ApplicationRecord
 
   # Public so interactions (e.g. Games::StartGame) can trigger a team reload.
   def broadcast_reload_teams
-    teams.reload.each { |team| team.reload.broadcast_replace_to team }
+    teams.reload.each { |team| team.reload.broadcast_team_replace }
   end
 
   # Redirect each joined player (on the games#join page) to their assigned team.

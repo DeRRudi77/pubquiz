@@ -26,9 +26,19 @@ class Team < ApplicationRecord
 
   # broadcasts
   after_update_commit -> do
+    broadcast_team_replace
     game.reload.broadcast_replace_to(game)
   end
   # broadcasts_to(:game)
+
+  # Replace the team frame on two role-specific streams so captains and
+  # viewers each receive the rendering meant for them (the captain keeps the
+  # edit forms; viewers get the read-only view). Each client subscribes to
+  # only one of these streams in teams/show, so there is no collision.
+  def broadcast_team_replace
+    broadcast_replace_to(self, :captain, partial: "teams/team", locals: {team: self, captain: true})
+    broadcast_replace_to(self, :viewer, partial: "teams/team", locals: {team: self, captain: false})
+  end
 
   def display_name
     name || "Team #{number}"

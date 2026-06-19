@@ -1,0 +1,6 @@
+- team.current_round_answers.each do |answer|
+  .field.is-horizontal
+    .field-label.is-normal Question #{answer.question.number}
+    .field-body
+      .field
+        .control = answer.answer.presence || '—'
