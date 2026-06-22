@@ -21,7 +21,7 @@ class GamesController < ApplicationController
   end
 
   def join
-    @player = Player.find_or_create_by!(session_id: session.id, game_id: @game.id)
+    @player ||= Player.find_or_initialize_by(session_id: session.id, game_id: @game.id)
   end
 
   # POST /games
@@ -67,7 +67,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Teams are being set up"}
         )
@@ -80,7 +80,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Game started"}
         )
@@ -93,7 +93,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Next round started"}
         )
@@ -106,7 +106,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Participants are now waiting for the results"}
         )
@@ -119,7 +119,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Game finished"}
         )

@@ -16,33 +16,15 @@
           td = round.name
           td = round.questions.count
 
-    .notification.is-warning = t(:team_notification)
+    .notification.is-warning data-controller="clipboard"
+      p = t(:team_notification)
+      .field.has-addons.mt-2
+        .control.is-expanded
+          input.input readonly=true data-clipboard-target="source" value=join_game_path(game)
+        .control
+          button.button.is-primary type="button" data-action="clipboard#copy" data-clipboard-target="button" Copy link
 
-    table.table.is-striped.is-hoverable
-      thead
-        tr
-          th Team
-          th Name
-          th Link
-
-      tbody
-        - game.teams.each_with_index do |team|
-          tr
-            td = team.id
-            td = team.display_name
-            td = link_to(nil, team)
-
-    table.table.is-striped.is-hoverable
-      thead
-        tr
-          th Name
-          th Team
-
-      tbody
-        - game.players.each_with_index do |player|
-          tr
-            td = player.name || "No name"
-            td = player.team&.display_name || 'No team'
+    == render 'games/team_cards', game: game
 
   footer.card-footer
     = link_to 'Edit', edit_game_path(game), class: "card-footer-item", data: { 'turbo-frame': '_top' }

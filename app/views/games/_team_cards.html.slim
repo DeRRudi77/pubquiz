@@ -1,0 +1,28 @@
+- players_by_team = game.players.group_by(&:team_id)
+.columns.is-multiline
+  - game.teams.each do |team|
+    .column.is-half
+      .box
+        .level.is-mobile.mb-2
+          .level-left
+            h2.subtitle.is-5.mb-0 = team.display_name
+          .level-right
+            = link_to 'Open', team, class: 'button is-small'
+        - members = players_by_team[team.id] || []
+        - if members.any?
+          ul
+            - members.each do |player|
+              li
+                = player.name.presence || 'No name'
+                - if player.team_captain
+                  span.tag.is-primary.is-light.ml-2 Captain
+        - else
+          p.has-text-grey.is-italic No players yet
+  - unassigned = players_by_team[nil] || []
+  - if unassigned.any?
+    .column.is-full
+      .notification.is-light.py-2
+        strong
+          | Waiting to be assigned
+          span.tag.is-rounded.ml-2 = unassigned.size
+        ' #{unassigned.map { |p| p.name.presence || "No name" }.join(", ")}

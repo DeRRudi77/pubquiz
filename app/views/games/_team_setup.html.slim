@@ -5,33 +5,7 @@
 
     p Teams are setting up. Captains can name their team before the game starts.
 
-    table.table.is-striped.is-hoverable
-      thead
-        tr
-          th Team
-          th Name
-          th Link
-
-      tbody
-        - game.teams.each do |team|
-          tr
-            td = team.id
-            td = team.display_name
-            td = link_to(nil, team)
-
-    table.table.is-striped.is-hoverable
-      thead
-        tr
-          th Name
-          th Team
-          th Captain
-
-      tbody
-        - game.players.each do |player|
-          tr
-            td = player.name || "No name"
-            td = player.team&.display_name || 'No team'
-            td = player.team_captain ? 'Yes' : ''
+    == render 'games/team_cards', game: game
 
   footer.card-footer
     = link_to 'Edit', edit_game_path(game), class: "card-footer-item", data: { 'turbo-frame': '_top' }

@@ -53,12 +53,23 @@ class Player
       end
     end
 
+    def find_or_initialize_by(session_id:, game_id:)
+      cache = Rails.cache.read(cache_key(session_id, game_id))
+      if cache
+        new(session_id: session_id, name: cache[:name], game_id: cache[:game_id], team_id: cache[:team_id], team_captain: cache[:team_captain])
+      else
+        new(session_id: session_id, game_id: game_id)
+      end
+    end
+
     def find(session_id:, game_id:)
       find_by_key(cache_key(session_id, game_id))
     end
 
     def find_by_key(key)
       cache = Rails.cache.read(key)
+      return nil if cache.nil?
+
       new(session_id: cache[:session_id], name: cache[:name], game_id: cache[:game_id], team_id: cache[:team_id], team_captain: cache[:team_captain])
     end
 

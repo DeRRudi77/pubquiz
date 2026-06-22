@@ -68,6 +68,24 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  # Regression: lifecycle actions must replace the game frame that the show
+  # page actually renders (dom_id(@game)), not the wizard-only "game_wizard"
+  # frame — otherwise the host page never updates in place and needs a reload.
+  test "setup_teams replaces the game frame and moves the game to team_setup" do
+    patch setup_teams_game_url(@game), as: :turbo_stream
+    assert_response :success
+    assert @game.reload.team_setup?
+    assert_select "turbo-stream[action='replace'][target=?]", ActionView::RecordIdentifier.dom_id(@game)
+  end
+
+  test "start replaces the game frame and starts the game" do
+    @game.team_setup!
+    patch start_game_url(@game), as: :turbo_stream
+    assert_response :success
+    assert @game.reload.started?
+    assert_select "turbo-stream[action='replace'][target=?]", ActionView::RecordIdentifier.dom_id(@game)
+  end
+
   test "requires authentication" do
     sign_out @owner
     get games_url
