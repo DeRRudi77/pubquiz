@@ -11,7 +11,9 @@ services:
       PGPASSWORD: pubquiz
       REDIS_URL: redis://redis:6379/1
       RAILS_ENV: development
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      # RAILS_MASTER_KEY is intentionally not set here: Rails reads the
+      # bind-mounted config/master.key (volume `.:/app`). Injecting an empty
+      # env var would shadow that file with "" and break credential decryption.
     ports:
       - 3000:3000
     volumes:

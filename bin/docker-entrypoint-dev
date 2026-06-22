@@ -10,6 +10,15 @@ if [ ! -d node_modules ] || [ -z "$(ls -A node_modules 2>/dev/null)" ]; then
   npm install
 fi
 
+# Self-service credentials: if no development credential set exists, generate a
+# throwaway one so a fresh checkout boots with zero manual key steps. This never
+# touches the shared config/credentials.yml.enc (used by production) — Rails reads
+# the environment-scoped pair in development and falls back to the shared file.
+if [ ! -f config/credentials/development.key ]; then
+  echo "==> No development credentials found; generating a throwaway set."
+  EDITOR=true bin/rails credentials:edit --environment development
+fi
+
 # Create + migrate the database (idempotent; waits on a healthy postgres via compose).
 bin/rails db:prepare
 
