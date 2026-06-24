@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!, except: [:join]
-  before_action :set_game, only: [:show, :update, :destroy, :edit, :start, :next_round, :show_results, :process_results]
+  before_action :set_game, only: [:show, :update, :destroy, :edit, :setup_teams, :start, :next_round, :show_results, :process_results]
   before_action :set_joinable_game, only: [:join]
 
   # GET /games
@@ -21,6 +21,7 @@ class GamesController < ApplicationController
   end
 
   def join
+    @player ||= Player.find_or_initialize_by(session_id: session.id, game_id: @game.id)
   end
 
   # POST /games
@@ -61,12 +62,25 @@ class GamesController < ApplicationController
     end
   end
 
+  def setup_teams
+    Games::SetupTeams.run!(game: @game)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          @game,
+          partial: "games/game",
+          locals: {game: @game, notice: "Teams are being set up"}
+        )
+      end
+    end
+  end
+
   def start
     Games::StartGame.run!(game: @game)
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Game started"}
         )
@@ -79,7 +93,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Next round started"}
         )
@@ -92,7 +106,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Participants are now waiting for the results"}
         )
@@ -105,7 +119,7 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(
-          "game_wizard",
+          @game,
           partial: "games/game",
           locals: {game: @game, notice: "Game finished"}
         )

@@ -3,15 +3,18 @@ class TeamsController < ApplicationController
 
   # GET /teams/1
   def show
+    @captain = captain?
   end
 
   # PATCH/PUT /teams/1
   def update
+    return head :forbidden unless captain?
+
     respond_to do |format|
       if @team.update(team_params)
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team, notice: update_notice}) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team, captain: captain?, notice: update_notice}) }
       else
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team}) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@team, partial: "teams/team", locals: {team: @team, captain: captain?}) }
       end
     end
   end
@@ -21,6 +24,14 @@ class TeamsController < ApplicationController
   def update_notice
     return "Answers saved" if params[:commit] == "Save answers"
     "Team name saved"
+  end
+
+  # The current session's player is this team's captain. Memoized so the
+  # Redis lookup runs once per request (callers: show, update guard + locals).
+  def captain?
+    return @captain unless @captain.nil?
+    player = Player.find_or_create_by!(session_id: session.id, game_id: @team.game_id)
+    @captain = !!(player.team_captain && player.team_id == @team.id)
   end
 
   # Use callbacks to share common setup or constraints between actions.

@@ -12,7 +12,7 @@ class Game < ApplicationRecord
   has_many :visible_rounds,
     -> { where(status: [statuses[:started], statuses[:finished], statuses[:scored]]).order(:number) },
     class_name: "Round"
-  enum :status, %i[pending_start started pending_results finished], default: "pending_start"
+  enum :status, %i[pending_start team_setup started pending_results finished], default: "pending_start"
 
   validates :number_of_rounds, presence: true
   validates :name, presence: true
@@ -34,7 +34,25 @@ class Game < ApplicationRecord
 
   # Public so interactions (e.g. Games::StartGame) can trigger a team reload.
   def broadcast_reload_teams
-    teams.reload.each { |team| team.reload.broadcast_replace_to team }
+    teams.reload.each { |team| team.reload.broadcast_team_replace }
+  end
+
+  # Redirect each joined player (on the games#join page) to their assigned team.
+  # Consumed by the custom Turbo.StreamActions.redirect action in application.js.
+  def broadcast_redirect_players_to_teams
+    players.each do |player|
+      next unless player.team
+
+      Turbo::StreamsChannel.broadcast_action_to(
+        player.stream_name,
+        action: "redirect",
+        target: Rails.application.routes.url_helpers.team_path(player.team)
+      )
+    end
+  end
+
+  def players
+    @players ||= Player.find_all_by_game_id(id)
   end
 
   private

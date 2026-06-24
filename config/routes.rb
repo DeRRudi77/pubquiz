@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   end
   resources :questions, only: [:destroy], module: :rounds
   resources :games do
+    resource :player, only: [:update], module: :games
     member do
+      patch "setup_teams"
       patch "start"
       patch "next_round"
       patch "process_results"

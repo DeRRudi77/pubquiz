@@ -1,0 +1,15 @@
+.card-content
+  .content
+    h1.title = game.name
+    == render 'components/form/notice', notice: notice
+
+    p Teams are setting up. Captains can name their team before the game starts.
+
+    == render 'games/team_cards', game: game
+
+  footer.card-footer
+    = link_to 'Edit', edit_game_path(game), class: "card-footer-item", data: { 'turbo-frame': '_top' }
+    .card-footer-item
+    .card-footer-item
+      = form_with(model: game, url: start_game_path(game)) do |form|
+        = form.submit 'Start the game!', class: 'button is-primary is-inverted'

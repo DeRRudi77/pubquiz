@@ -1,5 +1,9 @@
+- captain = local_assigns.fetch(:captain, false)
 h3 = team.name
 
 div
   h4 = team.game.current_round&.name
-  = render 'teams/answer_form', team: team, notice: notice
+  - if captain
+    == render 'teams/answer_form', team: team, notice: notice
+  - else
+    == render 'teams/answers_readonly', team: team

@@ -36,7 +36,7 @@ en:
   number_of_questions_title: "How many questions for round %{number}"
   number_of_questions: Number of questions
   max_notice: Max. 10
-  team_notification: Before starting the game, send the links below to the corresponding teams captains. They can then set the team names and enter the anwers on that link.
+  team_notification: Share the link below with all your players. Everyone who joins is automatically assigned to a team when you set up the teams.
   waiting_for_first_round: Answers will appear here if first round has finished.
   start: Start the game
   next_round: Next round
